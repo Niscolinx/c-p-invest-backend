@@ -113,7 +113,7 @@ app.use((error, req, res, next) => {
 
 mongoose
     .connect(
-        'mongodb+srv://munisco:fkNZcq4s9ZmcXho5@cluster0.zhgsa.mongodb.net/blog',
+        'mongodb+srv://${process.env.MONGO-USERNAME}:${process.env.MONGO-PASSWORD}@cluster0.zhgsa.mongodb.net/${process.env.MONGO-DEFAULT-DATABASE}',
         { useUnifiedTopology: true, useNewUrlParser: true }
     )
     .then((result) => {
