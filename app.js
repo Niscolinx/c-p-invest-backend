@@ -112,13 +112,15 @@ app.use((error, req, res, next) => {
 })
 console.log('the env process', process.env.NODE_ENV)
 
+const PORT = process.env.PORT || 3030
+
 mongoose
     .connect(
         `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.zhgsa.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`,
         { useUnifiedTopology: true, useNewUrlParser: true }
     )
     .then((result) => {
-        console.log('Connected!!')
-        app.listen( process.env.PORT || 3030)
+        console.log('Connected to', PORT)
+        app.listen(PORT)
     })
     .catch((err) => console.log(err))
