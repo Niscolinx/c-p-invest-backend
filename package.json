@@ -1,17 +1,17 @@
 {
   "name": "nodejs-complete-guide",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Nodejs blog built with graphql api",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "NODE_ENV=production MONGO-USERNAME=munisco MONGO-PASSWORD=fkNZcq4s9ZmcXho5 MONGO-DEFAULT-DATABASE=blog node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://git-codecommit.us-east-1.amazonaws.com/v1/repos/udemy-course-nodejs-complete"
+    "url": "https://github.com/Niscolinx/blog-backend"
   },
-  "author": "",
+  "author": "Igboanugwo Collins",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
