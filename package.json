@@ -1,11 +1,15 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "nodejs-blog-graphql-api",
   "version": "1.0.0",
   "description": "Nodejs blog built with graphql api",
-  "main": "main.js",
+  "main": "app.js",
+
+  "engines": {
+    "node": "10.21.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production MONGO-USERNAME=munisco MONGO-PASSWORD=fkNZcq4s9ZmcXho5 MONGO-DEFAULT-DATABASE=blog node app.js"
+    "start": "NODE_ENV=production MONGO_USERNAME=munisco MONGO_PASSWORD=fkNZcq4s9ZmcXho5 MONGO_DEFAULT_DATABASE=blog node app.js"
   },
   "repository": {
     "type": "git",

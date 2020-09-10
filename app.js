@@ -110,10 +110,11 @@ app.use((error, req, res, next) => {
     const message = error.message
     res.status(status).json({ message: message })
 })
+console.log('the env process', process.env.NODE_ENV)
 
 mongoose
     .connect(
-        `mongodb+srv://${process.env.MONGO-USERNAME}:${process.env.MONGO-PASSWORD}@cluster0.zhgsa.mongodb.net/${process.env.MONGO-DEFAULT-DATABASE}`,
+        `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.zhgsa.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`,
         { useUnifiedTopology: true, useNewUrlParser: true }
     )
     .then((result) => {
