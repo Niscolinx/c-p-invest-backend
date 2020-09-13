@@ -113,7 +113,6 @@ app.use((error, req, res, next) => {
 console.log('the env process', process.env.NODE_ENV)
 
 const PORT = process.env.PORT || 3030
-const PORT = process.env.PORT || 3030
 
 mongoose
     .connect(
