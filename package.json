@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "Nodejs blog built with graphql api",
   "main": "app.js",
-
   "engines": {
     "node": "10.21.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production MONGO_USERNAME=munisco MONGO_PASSWORD=fkNZcq4s9ZmcXho5 MONGO_DEFAULT_DATABASE=blog node app.js"
+    "start": "NODE_ENV=production MONGO_USERNAME=coinperfect MONGO_PASSWORD=jquh9vI6w8MegGJK MONGO_DEFAULT_DATABASE=user node app.js"
   },
   "repository": {
     "type": "git",

@@ -116,7 +116,7 @@ const PORT = process.env.PORT || 3030
 
 mongoose
     .connect(
-        `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.zhgsa.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`,
+        `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@coinperfect.oo5se.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`,
         { useUnifiedTopology: true, useNewUrlParser: true }
     )
     .then((result) => {
