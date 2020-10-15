@@ -33,7 +33,7 @@ module.exports = buildSchema(`
         password: String!
         secretQuestion: String!
         secretAnswer: String!
-        perfectMoney: String
+        ethereumAccount: String
         bitcoinAccount: String
     }
 

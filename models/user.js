@@ -23,6 +23,24 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    fullname: {
+        type: String,
+        required: true,
+    },
+    secretQuestion: {
+        type: String,
+        required: true,
+    },
+    secretAnswer: {
+        type: String,
+        required: true,
+    },
+    bitcoinAccount: {
+        type: String,
+    },
+    ethereumAccount: {
+        type: String,
+    },
 
     posts: [
         {
