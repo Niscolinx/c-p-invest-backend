@@ -63,6 +63,7 @@ module.exports = {
                 })
 
                 const createdUser = await newUser.save()
+                console.log('created the user')
 
                 if (createdUser) {
                     return {
