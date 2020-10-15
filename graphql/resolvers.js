@@ -59,7 +59,7 @@ module.exports = {
                     secretQuestion: userData.secretQuestion,
                     secretAnswer: userData.secretAnswer,
                     bitcoinAccount: userData.bitcoinAccount,
-                    ethereumAccount: userData.ethereum
+                    ethereumAccount: userData.ethereumAccount
                 })
 
                 const createdUser = await newUser.save()
