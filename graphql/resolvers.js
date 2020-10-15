@@ -9,6 +9,7 @@ const fileDelete = require('../utility/deleteFile')
 
 module.exports = {
     createUser: async function ({ userData }, req) {
+        console.log('the create user', userData)
         const error = []
         if (
             !validator.isEmail(userData.email) ||
@@ -54,6 +55,11 @@ module.exports = {
                     username: userData.username,
                     email: userData.email,
                     password: hashedPassword,
+                    fullname: userData.fullname,
+                    secretQuestion: userData.secretQuestion,
+                    secretAnswer: userData.secretAnswer,
+                    bitcoinAccount: userData.bitcoinAccount,
+                    perfectMoney: userData. perfectMoney
                 })
 
                 const createdUser = await newUser.save()

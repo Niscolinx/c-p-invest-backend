@@ -29,7 +29,12 @@ module.exports = buildSchema(`
     input UserInputData {
         username: String!
         email: String!
-        password: String
+        fullname: String!
+        password: String!
+        secretQuestion: String!
+        secretAnswer: String!
+        perfectMoney: String
+        bitcoinAccount: String
     }
 
     input PostInputData {
