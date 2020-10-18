@@ -9,7 +9,6 @@ const fileDelete = require('../utility/deleteFile')
 
 module.exports = {
     createUser: async function ({ userData }, req) {
-        console.log('the create user', userData)
         const error = []
         if (
             !validator.isEmail(userData.email) ||
@@ -18,19 +17,19 @@ module.exports = {
             error.push({ message: 'Invalid Email Field' })
         }
         if (
-            !validator.isLength(userData.username, { min: 5 }) ||
+            !validator.isLength(userData.username, { min: 6 }) ||
             validator.isEmpty(userData.username)
         ) {
             error.push({
-                message: 'Username must be at least 5 characters long',
+                message: 'Username must be at least 6 characters long',
             })
         }
         if (
-            !validator.isLength(userData.password, { min: 5 }) ||
+            !validator.isLength(userData.password, { min: 6 }) ||
             validator.isEmpty(userData.password)
         ) {
             error.push({
-                message: 'Password must be at least 5 characters long',
+                message: 'Password must be at least 6 characters long',
             })
         }
 
@@ -79,16 +78,17 @@ module.exports = {
 
     login: async function ({ email, password }) {
         const error = []
+
         if (!validator.isEmail(email) || validator.isEmpty(email)) {
             error.push({ message: 'Invalid Email Field' })
         }
 
         if (
-            !validator.isLength(password, { min: 5 }) ||
+            !validator.isLength(password, { min: 6 }) ||
             validator.isEmpty(password)
         ) {
             error.push({
-                message: 'Password must be at least 5 characters long',
+                message: 'Password must be at least 6 characters long',
             })
         }
 

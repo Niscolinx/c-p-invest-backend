@@ -48,6 +48,7 @@ const userSchema = new Schema({
             ref: 'posts',
         },
     ],
-})
+
+}, {timestamps: true})
 
 module.exports = mongoose.model('users', userSchema)

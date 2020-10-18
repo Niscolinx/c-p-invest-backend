@@ -16,8 +16,15 @@ module.exports = buildSchema(`
         _id: ID!
         username: String!
         email: String!
+        fullname: String!
         password: String!
-        status: String!
+        secretQuestion: String!
+        secretAnswer: String!
+        ethereumAccount: String
+        bitcoinAccount: String
+         status: String!
+        createdAt: String!
+        updatedAt: String!
         posts: [Post!]!
     }
 
