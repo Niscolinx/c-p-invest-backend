@@ -11,7 +11,7 @@ const fundAccountSchema = new Schema(
       type: String,
       required: true
     },
-    Currency: {
+    currency: {
       type: String,
       required: true
     },

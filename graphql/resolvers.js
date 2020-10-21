@@ -58,7 +58,7 @@ module.exports = {
                     secretQuestion: userData.secretQuestion,
                     secretAnswer: userData.secretAnswer,
                     bitcoinAccount: userData.bitcoinAccount,
-                    ethereumAccount: userData.ethereumAccount
+                    ethereumAccount: userData.ethereumAccount,
                 })
 
                 const createdUser = await newUser.save()
@@ -130,7 +130,7 @@ module.exports = {
     getUser: async function (arg, req) {
         if (!req.Auth) {
             const err = new Error('Not authenticated')
-             err.statusCode = 403
+            err.statusCode = 403
             throw err
         }
         const user = await User.findById(req.userId)
@@ -149,7 +149,7 @@ module.exports = {
 
     createFundAccount: async function ({ fundData }, req) {
         console.log('fund account', fundData, req.userId)
-        
+
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -166,29 +166,34 @@ module.exports = {
             throw err
         }
 
-        const fundAccount = new FundAccount({
-            amount: fundData.amount,
-            currency: fundData.currency,
-            proofUrl: fundData.proofUrl,
-            creator: user,
-        })
+        try {
+            const fundAccount = new FundAccount({
+                amount: fundData.amount,
+                currency: fundData.currency,
+                proofUrl: fundData.proofUrl,
+                creator: user,
+            })
 
-        console.log('fundacccount', fundAccount)
+            await fundAccount.save()
+            const saveFundAccount = await fundAccount.save()
+            console.log('saveAccount', saveFundAccount)
 
-        const saveFundAccount = await fundAccount.save()
+            user.fundAccount.push(saveFundAccount)
 
-        console.log('saveFund', saveFundAccount)
+            await user.save()
 
-        user.fundAccount.push(saveFundAccount)
+            return {
+                ...saveFundAccount._doc,
+                _id: saveFundAccount._id.toString(),
+                createdAt: saveFundAccount.createdAt.toISOString(),
+                updatedAt: saveFundAccount.updatedAt.toISOString(),
+            }
 
-        await user.save()
-
-        return {
-            ...saveFundAccount._doc,
-            _id: saveFundAccount._id.toString(),
-            createdAt: saveFundAccount.createdAt.toISOString(),
-            updatedAt: saveFundAccount.updatedAt.toISOString(),
+        } catch (err) {
+            console.log('err', err)
+            throw new Error(err)
         }
+        
     },
     updatePost: async function ({ id, postData }, req) {
         const error = []
