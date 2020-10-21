@@ -15,7 +15,7 @@ const userSchema = new Schema({
 
     status: {
         type: String,
-        default: 'I am new',
+        default: 'Customer',
         required: true,
     },
 
@@ -42,10 +42,10 @@ const userSchema = new Schema({
         type: String,
     },
 
-    posts: [
+    fundAccount: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'posts',
+            ref: 'fundAccount',
         },
     ],
 

@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../models/user')
-const Post = require('../models/post')
+const FundAccount = require('../models/fundAccount')
 
 const fileDelete = require('../utility/deleteFile')
 
@@ -147,33 +147,9 @@ module.exports = {
         }
     },
 
-    createPost: async function ({ postData }, req) {
-        const error = []
-
-        if (
-            !validator.isLength(postData.title, { min: 5 }) ||
-            validator.isEmpty(postData.title)
-        ) {
-            error.push({
-                message: 'title must be at least 5 characters long',
-            })
-        }
-        if (
-            !validator.isLength(postData.content, { min: 5 }) ||
-            validator.isEmpty(postData.content)
-        ) {
-            error.push({
-                message: 'Content must be at least 5 characters long',
-            })
-        }
-
-        if (error.length > 0) {
-            const err = new Error('Invalid post data')
-            err.statusCode = 422
-            err.data = error
-            throw err
-        }
-
+    createFundAccount: async function ({ fundData }, req) {
+        console.log('fund account', fundData, req.userId)
+        
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -182,30 +158,34 @@ module.exports = {
 
         const user = await User.findById(req.userId)
 
+        console.log('user', user)
+
         if (!user) {
             const err = new Error('Invalid User')
             err.statusCode = 422
             throw err
         }
 
-        const post = new Post({
-            title: postData.title,
-            content: postData.content,
-            imageUrl: postData.imageUrl,
+        const fundAccount = new FundAccount({
+            amount: fundData.amount,
+            currency: fundData.currency,
+            proofUrl: fundData.proofUrl,
             creator: user,
         })
 
-        const savePost = await post.save()
+        const saveFundAccount = await fundAccount.save()
 
-        user.posts.push(savePost)
+        console.log('saveFund', saveFundAccount)
+
+        user.fundAccount.push(saveFundAccount)
 
         await user.save()
 
         return {
-            ...savePost._doc,
-            _id: savePost._id.toString(),
-            createdAt: savePost.createdAt.toISOString(),
-            updatedAt: savePost.updatedAt.toISOString(),
+            ...saveFundAccount._doc,
+            _id: saveFundAccount._id.toString(),
+            createdAt: saveFundAccount.createdAt.toISOString(),
+            updatedAt: saveFundAccount.updatedAt.toISOString(),
         }
     },
     updatePost: async function ({ id, postData }, req) {

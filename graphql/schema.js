@@ -2,7 +2,7 @@ const { buildSchema } = require('graphql')
 
 module.exports = buildSchema(`
 
-    type fundAccount {
+    type FundAccount {
         _id: ID!
         amount: String!
         currency: String!
@@ -25,7 +25,7 @@ module.exports = buildSchema(`
          status: String!
         createdAt: String!
         updatedAt: String!
-        fundAccount: [fundAccount!]!
+        FundAccount: [FundAccount!]!
     }
 
     type AuthData {
@@ -44,7 +44,7 @@ module.exports = buildSchema(`
         bitcoinAccount: String
     }
 
-    input PostInputData {
+    input PostFundData {
         amount: String!
         currency: String!
         proofUrl: String!
@@ -53,14 +53,14 @@ module.exports = buildSchema(`
     
     type RootMutation {
         createUser(userData: UserInputData): User!
-        fundAccount(postData: PostInputData): fundAccount!
-        updatePost(id: ID!, postData: PostInputData): Post!
+        createFundAccount(fundData: PostFundData): FundAccount!
+        updatePost(id: ID!, postData: PostFundData): FundAccount!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!
     }
 
     type PostData {
-        Post: [Post!]!
+        FundAccount: [FundAccount!]!
         totalPosts: Int!
         lastPage: Int
     }
@@ -68,7 +68,7 @@ module.exports = buildSchema(`
     type rootQuery{
         login(email: String, password: String): AuthData!
         getPosts(page: Int): PostData!
-        post(id: ID!): Post!
+        post(id: ID!): FundAccount!
         getUser: User!
     }
 
