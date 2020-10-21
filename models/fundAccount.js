@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const postSchema = new Schema(
+const fundAccountSchema = new Schema(
   {
-    title: {
+    amount: {
       type: String,
       required: true
     },
-    imageUrl: {
+    proofUrl: {
       type: String,
       required: true
     },
-    content: {
+    Currency: {
       type: String,
       required: true
     },
@@ -24,4 +24,4 @@ const postSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Post', postSchema);
+module.exports = mongoose.model('FundAccount', fundAccountSchema);

@@ -2,11 +2,11 @@ const { buildSchema } = require('graphql')
 
 module.exports = buildSchema(`
 
-    type Post {
+    type fundAccount {
         _id: ID!
-        title: String!
-        content: String!
-        imageUrl: String!
+        amount: String!
+        currency: String!
+        proofUrl: String!
         creator: User!
         createdAt: String!
         UpdatedAt: String!
@@ -25,7 +25,7 @@ module.exports = buildSchema(`
          status: String!
         createdAt: String!
         updatedAt: String!
-        posts: [Post!]!
+        fundAccount: [fundAccount!]!
     }
 
     type AuthData {
@@ -45,15 +45,15 @@ module.exports = buildSchema(`
     }
 
     input PostInputData {
-        title: String!
-        content: String!
-        imageUrl: String!
+        amount: String!
+        currency: String!
+        proofUrl: String!
     }
 
     
     type RootMutation {
         createUser(userData: UserInputData): User!
-        createPost(postData: PostInputData): Post!
+        fundAccount(postData: PostInputData): fundAccount!
         updatePost(id: ID!, postData: PostInputData): Post!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!

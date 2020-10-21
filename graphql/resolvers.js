@@ -130,7 +130,7 @@ module.exports = {
     getUser: async function (arg, req) {
         if (!req.Auth) {
             const err = new Error('Not authenticated')
-            err.statusCode = 403
+             err.statusCode = 403
             throw err
         }
         const user = await User.findById(req.userId)
