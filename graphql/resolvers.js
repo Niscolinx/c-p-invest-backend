@@ -173,6 +173,8 @@ module.exports = {
             creator: user,
         })
 
+        console.log('fundacccount', fundAccount)
+
         const saveFundAccount = await fundAccount.save()
 
         console.log('saveFund', saveFundAccount)
