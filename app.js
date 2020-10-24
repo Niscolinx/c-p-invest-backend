@@ -115,6 +115,8 @@ console.log('the env process', process.env.NODE_ENV)
 
 const PORT = process.env.PORT || 3030
 
+console.log('the env', process.env, process.env.PORT)
+
 mongoose
     .connect(
         `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@coinperfect.oo5se.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}?retryWrites=true&w=majority`,
