@@ -61,7 +61,7 @@ app.use((req, res, next) => {
 
 app.use(auth)
 
-app.put('/post-image', (req, res, next) => {
+app.put('/api/post-image', (req, res, next) => {
     console.log('req file', req.file)
     if (!req.Auth) {
         throw new Error('Not authenticated!')
@@ -82,7 +82,7 @@ app.put('/post-image', (req, res, next) => {
 })
 
 app.use(
-    '/graphql',
+    '/api/graphql',
     graphqlHTTP({
         schema: graphqlSchema,
         rootValue: graphqlResolver,
@@ -115,7 +115,9 @@ console.log('the env process', process.env.NODE_ENV)
 
 const PORT = process.env.PORT || 3030
 
-console.log('the env', process.env, process.env.PORT)
+console.log('the env', process.env)
+
+console.log('the env port', process.env.PORT)
 
 mongoose
     .connect(
