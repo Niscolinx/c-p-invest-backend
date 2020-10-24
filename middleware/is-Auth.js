@@ -4,6 +4,8 @@ module.exports = (req, res, next) => {
     const authToken = req.get('Authorization')
 
     console.log('is auth', authToken)
+    console.log('to confirm')
+
 
     if (!authToken) {
         req.Auth = false

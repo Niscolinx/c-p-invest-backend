@@ -115,8 +115,6 @@ console.log('the env process', process.env.NODE_ENV)
 
 const PORT = process.env.PORT || 3030
 
-console.log('the env', process.env)
-
 console.log('the env port', process.env.PORT)
 
 mongoose
