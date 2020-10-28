@@ -118,7 +118,7 @@ module.exports = {
         const token = jwt.sign(
             { email: userExits.email, userId: userExits._id.toString() },
             'supersecretkey',
-            { expiresIn: '1hr' }
+            { expiresIn: '2hr' }
         )
 
         return {
