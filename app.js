@@ -59,10 +59,6 @@ app.use((req, res, next) => {
     next()
 })
 
-app.get('/', (req, res, next) => {
-    console.log('the server')
-    res.send('<h1>Hello world</h1>')
-})
 app.use(auth)
 
 app.put('/api/post-image', (req, res, next) => {
