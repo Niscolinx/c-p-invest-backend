@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import { Schema as _Schema, model } from 'mongoose'
 
-const Schema = mongoose.Schema
+const Schema = _Schema
 
 const userSchema = new Schema(
     {
@@ -57,6 +57,9 @@ const userSchema = new Schema(
         ethereumAccount: {
             type: String,
         },
+        notification: {
+            type: String,
+        },
 
         fundAccount: [
             {
@@ -105,4 +108,4 @@ const userSchema = new Schema(
     { timestamps: true }
 )
 
-module.exports = mongoose.model('users', userSchema)
+export default model('users', userSchema)
