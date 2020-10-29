@@ -13,10 +13,16 @@ const userSchema = new Schema({
         required: true,
     },
 
-    status: {
+    role: {
         type: String,
         default: 'Customer',
         required: true,
+    },
+
+    status: {
+        type: String, 
+        required: true,
+        default: 'Active'
     },
 
     password: {
@@ -48,6 +54,10 @@ const userSchema = new Schema({
             ref: 'fundAccount',
         },
     ],
+
+    accountBalance: {
+
+    }
 
 }, {timestamps: true})
 
