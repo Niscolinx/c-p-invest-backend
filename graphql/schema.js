@@ -22,7 +22,8 @@ module.exports = buildSchema(`
         secretAnswer: String!
         ethereumAccount: String
         bitcoinAccount: String
-         status: String!
+        role: String!
+        status: String!
         createdAt: String!
         updatedAt: String!
         FundAccount: [FundAccount!]!
@@ -31,6 +32,8 @@ module.exports = buildSchema(`
     type AuthData {
         token: String!
         userId: String!
+        role: String!
+        email: String!
     }
 
     input UserInputData {

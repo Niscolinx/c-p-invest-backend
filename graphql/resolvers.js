@@ -123,6 +123,8 @@ module.exports = {
 
         return {
             userId: userExits._id.toString(),
+            role: userExits._doc.role,
+            status: userExits._doc.status,
             token,
         }
     },
