@@ -77,6 +77,7 @@ module.exports = {
     },
 
     login: async function ({ email, password }) {
+        console.log('the user login')
         const error = []
 
         if (!validator.isEmail(email) || validator.isEmpty(email)) {
@@ -101,6 +102,8 @@ module.exports = {
 
         const userExits = await User.findOne({ email })
 
+        console.log('user exits', userExits)
+
         if (!userExits) {
             const error = new Error('User does not exist')
             error.statusCode = 401
@@ -108,6 +111,8 @@ module.exports = {
         }
 
         const checkPassword = await bcrypt.compare(password, userExits.password)
+
+        console.log("the check password", checkPassword)
 
         if (!checkPassword) {
             const error = new Error('Incorrect Password')
@@ -121,6 +126,7 @@ module.exports = {
             { expiresIn: '2hr' }
         )
 
+        console.log("the token", token)
         return {
             userId: userExits._id.toString(),
             role: userExits._doc.role,

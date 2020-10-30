@@ -20,4 +20,4 @@ const withdrawalSchema = new Schema(
     { timestamps: true }
 )
 
-export default model('deposit', withdrawalSchema)
+module.exports = mongoose.model('depwiosit', depositSchema)
