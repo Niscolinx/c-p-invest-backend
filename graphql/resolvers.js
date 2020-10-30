@@ -1,6 +1,7 @@
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const nodeMailer = require('nodemailer')
 
 const User = require('../models/user')
 const FundAccount = require('../models/fundAccount')
@@ -40,6 +41,14 @@ module.exports = {
             throw err
         }
 
+        const mailTransport = nodemailer.createTransport({
+            host: 'smtp.mailtrap.io',
+            port: 2525,
+            auth: {
+                user: '3d41967e762911',
+                pass: '36b27c6a4a7d02',
+            },
+        })
         const existingUser = await User.findOne({ email: userData.email })
 
         if (existingUser) {
@@ -70,6 +79,18 @@ module.exports = {
                         _id: createdUser._id.toString(),
                     }
                 }
+
+                mailTransport.sendMail({
+                    to: userData.email,
+                    from: 'support@coinperfectinvestment.com',
+                    subject: 'Successful sign up',
+                    html: '<h1>We welcome you to the home of the best cryto trading and investment!!</h1>'
+
+                        .then((result) => {
+                            console.log('from the mailer', result)
+                        })
+                        .catch((err) => console.log(err)),
+                })
             }
         } catch (err) {
             throw new Error(err)
@@ -112,7 +133,7 @@ module.exports = {
 
         const checkPassword = await bcrypt.compare(password, userExits.password)
 
-        console.log("the check password", checkPassword)
+        console.log('the check password', checkPassword)
 
         if (!checkPassword) {
             const error = new Error('Incorrect Password')
@@ -126,11 +147,12 @@ module.exports = {
             { expiresIn: '2hr' }
         )
 
-        console.log("the token", token)
+        console.log('the token', token)
+        console.log('the user credentials', userExits._doc.email)
         return {
             userId: userExits._id.toString(),
             role: userExits._doc.role,
-            status: userExits._doc.status,
+            email: userExits._doc.email,
             token,
         }
     },
@@ -196,12 +218,10 @@ module.exports = {
                 createdAt: saveFundAccount.createdAt.toISOString(),
                 updatedAt: saveFundAccount.updatedAt.toISOString(),
             }
-
         } catch (err) {
             console.log('err', err)
             throw new Error(err)
         }
-        
     },
     updatePost: async function ({ id, postData }, req) {
         const error = []
