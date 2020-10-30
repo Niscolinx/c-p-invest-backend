@@ -1,12 +1,21 @@
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const nodeMailer = require('nodemailer')
+//const nodeMailer = require('nodemailer')
 
 const User = require('../models/user')
 const FundAccount = require('../models/fundAccount')
 
 const fileDelete = require('../utility/deleteFile')
+
+// const mailTransport = nodeMailer.createTransport({
+//     host: 'smtp.mailtrap.io',
+//     port: 2525,
+//     auth: {
+//         user: '3d41967e762911',
+//         pass: '36b27c6a4a7d02',
+//     },
+// })
 
 module.exports = {
     createUser: async function ({ userData }, req) {
@@ -18,7 +27,7 @@ module.exports = {
             error.push({ message: 'Invalid Email Field' })
         }
         if (
-            !validator.isLength(userData.username, { min: 6 }) ||
+            !validator.isLength(userData.username, { min: 3 }) ||
             validator.isEmpty(userData.username)
         ) {
             error.push({
@@ -34,6 +43,7 @@ module.exports = {
             })
         }
 
+        console.log('the error array', error)
         if (error.length > 0) {
             const err = new Error('Invalid User Input')
             err.statusCode = 422
@@ -41,19 +51,20 @@ module.exports = {
             throw err
         }
 
-        const mailTransport = nodemailer.createTransport({
-            host: 'smtp.mailtrap.io',
-            port: 2525,
-            auth: {
-                user: '3d41967e762911',
-                pass: '36b27c6a4a7d02',
-            },
-        })
         const existingUser = await User.findOne({ email: userData.email })
+        const existingUsername = await User.findOne({
+            username: userData.username,
+        })
+
+        console.log('exiting', existingUser, existingUsername)
 
         if (existingUser) {
             const error = new Error('User already exists')
             throw error
+        }
+
+        if (existingUsername) {
+            throw new Error('Username already taken')
         }
         try {
             const hashedPassword = await bcrypt.hash(userData.password, 12)
@@ -79,18 +90,6 @@ module.exports = {
                         _id: createdUser._id.toString(),
                     }
                 }
-
-                mailTransport.sendMail({
-                    to: userData.email,
-                    from: 'support@coinperfectinvestment.com',
-                    subject: 'Successful sign up',
-                    html: '<h1>We welcome you to the home of the best cryto trading and investment!!</h1>'
-
-                        .then((result) => {
-                            console.log('from the mailer', result)
-                        })
-                        .catch((err) => console.log(err)),
-                })
             }
         } catch (err) {
             throw new Error(err)
@@ -149,6 +148,15 @@ module.exports = {
 
         console.log('the token', token)
         console.log('the user credentials', userExits._doc.email)
+
+        // const mailSent = await mailTransport.sendMail({
+        //     to: email,
+        //     from: 'support@coinperfectinvestment.com',
+        //     subject: 'Successful sign up',
+        //     html: '<h3>We welcome you to the home of the best cryto trading and investment!!</h3>'
+
+        // })
+
         return {
             userId: userExits._id.toString(),
             role: userExits._doc.role,
