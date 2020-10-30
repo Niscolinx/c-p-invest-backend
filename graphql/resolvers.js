@@ -157,6 +157,7 @@ module.exports = {
         // })
 
         return {
+            ...userExits._doc,
             userId: userExits._id.toString(),
             role: userExits._doc.role,
             email: userExits._doc.email,
