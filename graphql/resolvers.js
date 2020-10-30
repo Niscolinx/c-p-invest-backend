@@ -23,9 +23,9 @@ module.exports = {
         if (
             !validator.isEmail(userData.email) ||
             validator.isEmpty(userData.email)
-        ) {
-            error.push({ message: 'Invalid Email Field' })
-        }
+            ) {
+                error.push({ message: 'Invalid Email Field' })
+            }
         if (
             !validator.isLength(userData.username, { min: 3 }) ||
             validator.isEmpty(userData.username)
@@ -43,7 +43,6 @@ module.exports = {
             })
         }
 
-        console.log('the error array', error)
         if (error.length > 0) {
             const err = new Error('Invalid User Input')
             err.statusCode = 422
