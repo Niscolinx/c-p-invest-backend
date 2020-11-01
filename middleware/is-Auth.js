@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken')
 module.exports = (req, res, next) => {
     const authToken = req.get('Authorization')
 
-    console.log('is auth', authToken)
-    console.log('to confirm')
-
+    console.log('to confirm', authToken)
 
     if (!authToken) {
         req.Auth = false
@@ -13,8 +11,6 @@ module.exports = (req, res, next) => {
     }
 
     const gottenToken = authToken.split(' ')[1]
-
-    console.log('gottenToken', gottenToken)
 
     let verifiedToken
 
@@ -24,7 +20,6 @@ module.exports = (req, res, next) => {
         req.Auth = false
         return next()
     }
-
 
     if (!verifiedToken) {
         req.Auth = false

@@ -23,9 +23,9 @@ module.exports = {
         if (
             !validator.isEmail(userData.email) ||
             validator.isEmpty(userData.email)
-            ) {
-                error.push({ message: 'Invalid Email Field' })
-            }
+        ) {
+            error.push({ message: 'Invalid Email Field' })
+        }
         if (
             !validator.isLength(userData.username, { min: 3 }) ||
             validator.isEmpty(userData.username)
@@ -166,6 +166,7 @@ module.exports = {
     },
 
     getUser: async function (arg, req) {
+        console.log("the getUser", req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -229,6 +230,36 @@ module.exports = {
         } catch (err) {
             console.log('err', err)
             throw new Error(err)
+        }
+    },
+    getFunds: async function (arg, req) {
+
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+
+        const getFunds = await FundAccount.find().populate('creator')
+
+        console.log('getFunds', getFunds)
+
+        if (!getFunds) {
+            const err = new Error('Empty Funds')
+            err.statusCode = 422
+            throw err
+        }
+
+        return {
+            getFund: getFunds.map((p) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    creator: p.creator,
+                    createdAt: p.createdAt.toISOString(),
+                    updatedAt: p.updatedAt.toISOString(),
+                }
+            }),
         }
     },
     updatePost: async function ({ id, postData }, req) {
