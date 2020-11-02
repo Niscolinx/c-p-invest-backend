@@ -280,8 +280,13 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     creator: p.creator,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
+                    fundNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
                 }
             }),
         }
