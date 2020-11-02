@@ -485,13 +485,6 @@ module.exports = {
                 createdAt: updatedUser.createdAt.toISOString()
             }
         }
-        
-    
-
-              
-
-
-            
        
     },
 }
