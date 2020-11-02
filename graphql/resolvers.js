@@ -204,7 +204,7 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     userNO: i + 1,
-                    createdAt: p.createdAt.toISOString(),
+                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
                     updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }),
@@ -249,8 +249,8 @@ module.exports = {
             return {
                 ...saveFundAccount._doc,
                 _id: saveFundAccount._id.toString(),
-                createdAt: saveFundAccount.createdAt.toISOString(),
-                updatedAt: saveFundAccount.updatedAt.toISOString(),
+                createdAt: saveFundAccount.createdAt.toLocaleString('en-GB', {hour12: true}),
+                updatedAt: saveFundAccount.updatedAt.toLocaleString('en-GB', {hour12: true}),
             }
         } catch (err) {
             console.log('err', err)
@@ -280,8 +280,8 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     creator: p.creator,
-                    createdAt: p.createdAt.toISOString(),
-                    updatedAt: p.updatedAt.toISOString(),
+                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
+                    updatedAt: p.updatedAttoLocaleString('en-GB', {hour12: true}),
                 }
             }),
         }
@@ -344,8 +344,8 @@ module.exports = {
         return {
             ...updatedPost._doc,
             _id: updatedPost._id.toString(),
-            createdAt: updatedPost.createdAt.toISOString(),
-            updatedAt: updatedPost.updatedAt.toISOString(),
+            createdAt: updatedPost.createdAttoLocaleString('en-GB', {hour12: true}),
+            updatedAt: updatedPost.updatedAttoLocaleString('en-GB', {hour12: true}),
         }
     },
 
@@ -415,8 +415,8 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     status: p.creator.status,
-                    createdAt: p.createdAt.toISOString(),
-                    updatedAt: p.updatedAt.toISOString(),
+                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
+                    updatedAt: p.updatedAttoLocaleString('en-GB', {hour12: true}),
                 }
             }),
             totalPosts,
@@ -441,8 +441,8 @@ module.exports = {
 
         return {
             ...post._doc,
-            createdAt: post.createdAt.toISOString(),
-            updatedAt: post.updatedAt.toISOString(),
+            createdAt: post.createdAttoLocaleString('en-GB', {hour12: true}),
+            updatedAt: post.updatedAttoLocaleString('en-GB', {hour12: true}),
         }
     },
 
@@ -504,8 +504,8 @@ module.exports = {
                 return {
                     ...updatedUser._doc,
                     _id: updatedUser._id.toString(),
-                    updatedAt: updatedUser.updatedAt.toISOString(),
-                    createdAt: updatedUser.createdAt.toISOString(),
+                    updatedAt: updatedUser.updatedAttoLocaleString('en-GB', {hour12: true}),
+                    createdAt: updatedUser.createdAttoLocaleString('en-GB', {hour12: true}),
                 }
             }
         } catch (err) {
