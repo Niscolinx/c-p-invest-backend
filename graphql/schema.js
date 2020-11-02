@@ -57,6 +57,8 @@ module.exports = buildSchema(`
         country: String
         ethereumAccount: String
         bitcoinAccount: String
+        createdAt: String
+        updatedAt: String
     }
     input PostProfileData {
         username: String

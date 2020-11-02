@@ -460,15 +460,15 @@ module.exports = {
             exitingUser.password = hashedPassword
 
         }
-        exitingUser.username = updateProfileData.username,
-        exitingUser.email = updateProfileData.email,
-        exitingUser.fullname = updateProfileData.fullname,
-        exitingUser.city = updateProfileData.city,
-        exitingUser.country = updateProfileData.country,
-        exitingUser.profilePic = updateProfileData.profilePic,
-        exitingUser.phone = updateProfileData.phone,
-        exitingUser.bitcoinAccount = updateProfileData.bitcoinAccount,
-        exitingUser.ethereumAccount = updateProfileData.ethereumAccount,
+        exitingUser.username = updateProfileData.username
+        exitingUser.email = updateProfileData.email
+        exitingUser.fullname = updateProfileData.fullname
+        exitingUser.city = updateProfileData.city
+        exitingUser.country = updateProfileData.country
+        exitingUser.profilePic = updateProfileData.profilePic
+        exitingUser.phone = updateProfileData.phone
+        exitingUser.bitcoinAccount = updateProfileData.bitcoinAccount
+        exitingUser.ethereumAccount = updateProfileData.ethereumAccount
 
         if (updateProfileData.imageUrl !== 'undefined') {
             existingUser.imageUrl = updateProfileData.imageUrl
