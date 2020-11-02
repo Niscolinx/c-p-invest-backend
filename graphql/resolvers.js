@@ -81,7 +81,6 @@ module.exports = {
                 })
 
                 const createdUser = await newUser.save()
-                console.log('created the user')
 
                 if (createdUser) {
                     return {
@@ -96,7 +95,6 @@ module.exports = {
     },
 
     login: async function ({ email, password }) {
-        console.log('the user login')
         const error = []
 
         if (!validator.isEmail(email) || validator.isEmpty(email)) {
@@ -121,7 +119,6 @@ module.exports = {
 
         const userExits = await User.findOne({ email })
 
-        console.log('user exits', userExits)
 
         if (!userExits) {
             const error = new Error('User does not exist')
@@ -131,7 +128,6 @@ module.exports = {
 
         const checkPassword = await bcrypt.compare(password, userExits.password)
 
-        console.log('the check password', checkPassword)
 
         if (!checkPassword) {
             const error = new Error('Incorrect Password')
@@ -145,8 +141,6 @@ module.exports = {
             { expiresIn: '2hr' }
         )
 
-        console.log('the token', token)
-        console.log('the user credentials', userExits._doc.email)
 
         // const mailSent = await mailTransport.sendMail({
         //     to: email,
@@ -166,7 +160,6 @@ module.exports = {
     },
 
     getUser: async function (arg, req) {
-        console.log('the getUser', req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -180,9 +173,39 @@ module.exports = {
             throw error
         }
 
+
         return {
             ...user._doc,
             _id: user._id.toString(),
+        }
+    },
+
+    getUsers: async function (arg, req) {
+        console.log('the getUser', req.Auth)
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+        const user = await User.findById()
+
+
+        if (!user) {
+            const error = new Error('No Users')
+            error.statusCode = 404
+            throw error
+        }
+
+
+        return {
+            getUser: getUsers.map((p) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    createdAt: p.createdAt.toISOString(),
+                    updatedAt: p.updatedAt.toISOString(),
+                }
+            }),
         }
     },
 
@@ -451,7 +474,7 @@ module.exports = {
         }
 
         const existingUser = await User.findOne({
-            email: updateProfileData.email,
+            email: updateProfileData.oldEmail,
         })
 
         console.log('exiting user', existingUser)

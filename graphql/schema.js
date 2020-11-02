@@ -22,6 +22,9 @@ module.exports = buildSchema(`
         secretAnswer: String!
         ethereumAccount: String
         bitcoinAccount: String
+        city: String
+        phone: String
+        country: String
         role: String!
         status: String!
         createdAt: String!
@@ -63,6 +66,7 @@ module.exports = buildSchema(`
     input PostProfileData {
         username: String
         email: String
+        oldEmail: String
         profilePic: String
         fullname: String
         password: String
@@ -97,6 +101,9 @@ module.exports = buildSchema(`
     type getFundData {
         getFund: [FundAccount!]!     
     }
+    type getUsersData {
+        getUser: [User!]!     
+    }
 
     type rootQuery{
         login(email: String, password: String): AuthData!
@@ -104,6 +111,7 @@ module.exports = buildSchema(`
         getPosts(page: Int): PostData!
         post(id: ID!): FundAccount!
         getUser: User!
+        getUsers: getUsersData!
     }
 
     schema {
