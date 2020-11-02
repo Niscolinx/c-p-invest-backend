@@ -9,7 +9,7 @@ module.exports = buildSchema(`
         proofUrl: String!
         creator: User!
         createdAt: String!
-        UpdatedAt: String!
+        updatedAt: String!
     }
 
     type User {
@@ -46,6 +46,30 @@ module.exports = buildSchema(`
         ethereumAccount: String
         bitcoinAccount: String
     }
+    type ProfileData {
+        username: String
+        email: String
+        fullname: String
+        password: String
+        city: String
+        phone: String
+        profilePic: String
+        country: String
+        ethereumAccount: String
+        bitcoinAccount: String
+    }
+    input PostProfileData {
+        username: String
+        email: String
+        profilePic: String
+        fullname: String
+        password: String
+        city: String
+        phone: String
+        country: String
+        ethereumAccount: String
+        bitcoinAccount: String
+    }
 
     input PostFundData {
         amount: String!
@@ -57,6 +81,7 @@ module.exports = buildSchema(`
     type RootMutation {
         createUser(userData: UserInputData): User!
         createFundAccount(fundData: PostFundData): FundAccount!
+        createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
         updatePost(id: ID!, postData: PostFundData): FundAccount!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!
@@ -68,10 +93,7 @@ module.exports = buildSchema(`
         lastPage: Int
     }
     type getFundData {
-        getFund: [FundAccount!]!
-        creator: User!
-        createdAt: String!
-        updatedAt: String!
+        getFund: [FundAccount!]!     
     }
 
     type rootQuery{

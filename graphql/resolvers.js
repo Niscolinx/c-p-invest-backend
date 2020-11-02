@@ -257,7 +257,7 @@ module.exports = {
                     _id: p._id.toString(),
                     creator: p.creator,
                     createdAt: p.createdAt.toISOString(),
-                    updatedAt: p.updatedAt.toISOString(),
+                    updatedAt: p.updatedAt.toISOString()
                 }
             }),
         }
