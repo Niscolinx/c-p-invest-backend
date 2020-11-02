@@ -294,18 +294,18 @@ module.exports = {
                         hour12: true,
                     }),
                 })
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    creator: p.creator,
-                    fundNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
+                // return {
+                //     ...p._doc,
+                //     _id: p._id.toString(),
+                //     creator: p.creator,
+                //     fundNO: i + 1,
+                //     createdAt: p.createdAt.toLocaleString('en-GB', {
+                //         hour12: true,
+                //     }),
+                //     updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                //         hour12: true,
+                //     }),
+                // }
             }),
             fundData: theCreator,
         }

@@ -112,7 +112,6 @@ module.exports = buildSchema(`
         lastPage: Int
     }
     type getFundData {
-        getFund: [FundAccount!]!  
         fundData: [getFundsData!]!   
     }
     type getUsersData {
