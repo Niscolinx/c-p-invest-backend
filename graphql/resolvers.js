@@ -450,21 +450,6 @@ module.exports = {
               err.statusCode = 403
               throw err
           }
-       
-        if (
-            !validator.isLength(updateProfileData.password, { min: 6 })
-        ) {
-            error.push({
-                message: 'Password must be at least 6 characters long',
-            })
-        }
-
-        if (error.length > 0) {
-            const err = new Error('Invalid User Input')
-            err.statusCode = 422
-            err.data = error
-            throw err
-        }
 
         const existingUser = await User.findOne({ email: updateProfileData.email })
     
@@ -473,8 +458,10 @@ module.exports = {
                     exitingUser.email = updateProfileData.email,
                     exitingUser.password = hashedPassword,
                     exitingUser.fullname = updateProfileData.fullname,
-                    exitingUser.secretQuestion = updateProfileData.secretQuestion,
-                    exitingUser.secretAnswer = updateProfileData.secretAnswer,
+                    exitingUser.city = updateProfileData.city,
+                    exitingUser.country = updateProfileData.country,
+                    exitingUser.profilePic = updateProfileData.profilePic,
+                    exitingUser.phone = updateProfileData.phone,
                     exitingUser.bitcoinAccount = updateProfileData.bitcoinAccount,
                     exitingUser.ethereumAccount = updateProfileData.ethereumAccount,
 
