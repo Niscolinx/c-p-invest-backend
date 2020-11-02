@@ -96,6 +96,16 @@ module.exports = buildSchema(`
         updateStatus(status: String!): User!
     }
 
+    type getFundsData {
+        status: String
+        amount: String
+        proofUrl: String
+        currency: String
+        creator: String
+        fundNO: Int
+        createdAt: String
+        updatedAt: String
+    }
     type PostData {
         FundAccount: [FundAccount!]!
         totalPosts: Int!
@@ -103,7 +113,7 @@ module.exports = buildSchema(`
     }
     type getFundData {
         getFund: [FundAccount!]!  
-        creator: [User!]!   
+        fundData: [getFundsData!]!   
     }
     type getUsersData {
         getUser: [User!]!     

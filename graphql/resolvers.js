@@ -280,7 +280,20 @@ module.exports = {
 
         return {
             getFund: getFunds.map((p, i) => {
-                theCreator.push(p.creator)
+                theCreator.push({
+                    creator: p.creator.username,
+                    status: p._doc.status,
+                    amount: p._doc.amount,
+                    currency: p._doc.currency,
+                    proofUrl: p._doc.proofUrl,
+                    fundNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                })
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
@@ -294,7 +307,7 @@ module.exports = {
                     }),
                 }
             }),
-            creator: theCreator,
+            fundData: theCreator,
         }
     },
     updatePost: async function ({ id, postData }, req) {
