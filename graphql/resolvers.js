@@ -187,7 +187,7 @@ module.exports = {
             err.statusCode = 403
             throw err
         }
-        const getUsers = await User.find()
+        const getUsers = await User.find({role:'Customer'})
         
         console.log('the getUsers', getUsers)
 
@@ -199,12 +199,13 @@ module.exports = {
 
 
         return {
-            getUser: getUsers.map((p) => {
+            getUser: getUsers.map((p, i) => {
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
+                    userNO: i + 1,
                     createdAt: p.createdAt.toISOString(),
-                    updatedAt: p.updatedAt.toISOString(),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }),
         }

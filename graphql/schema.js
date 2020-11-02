@@ -26,6 +26,7 @@ module.exports = buildSchema(`
         phone: String
         country: String
         role: String!
+        userNO: Int
         status: String!
         createdAt: String!
         updatedAt: String!
