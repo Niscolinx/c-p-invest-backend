@@ -204,7 +204,7 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     userNO: i + 1,
-                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
+                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
                     updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }),
@@ -280,8 +280,8 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     creator: p.creator,
-                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
-                    updatedAt: p.updatedAttoLocaleString('en-GB', {hour12: true}),
+                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }),
         }
@@ -344,8 +344,8 @@ module.exports = {
         return {
             ...updatedPost._doc,
             _id: updatedPost._id.toString(),
-            createdAt: updatedPost.createdAttoLocaleString('en-GB', {hour12: true}),
-            updatedAt: updatedPost.updatedAttoLocaleString('en-GB', {hour12: true}),
+            createdAt: updatedPost.createdAt.toLocaleString('en-GB', {hour12: true}),
+            updatedAt: updatedPost.updatedAt.toLocaleString('en-GB', {hour12: true}),
         }
     },
 
@@ -415,8 +415,8 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     status: p.creator.status,
-                    createdAt: p.createdAttoLocaleString('en-GB', {hour12: true}),
-                    updatedAt: p.updatedAttoLocaleString('en-GB', {hour12: true}),
+                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }),
             totalPosts,
@@ -441,8 +441,8 @@ module.exports = {
 
         return {
             ...post._doc,
-            createdAt: post.createdAttoLocaleString('en-GB', {hour12: true}),
-            updatedAt: post.updatedAttoLocaleString('en-GB', {hour12: true}),
+            createdAt: post.createdAt.toLocaleString('en-GB', {hour12: true}),
+            updatedAt: post.updatedAt.toLocaleString('en-GB', {hour12: true}),
         }
     },
 
@@ -504,8 +504,8 @@ module.exports = {
                 return {
                     ...updatedUser._doc,
                     _id: updatedUser._id.toString(),
-                    updatedAt: updatedUser.updatedAttoLocaleString('en-GB', {hour12: true}),
-                    createdAt: updatedUser.createdAttoLocaleString('en-GB', {hour12: true}),
+                    updatedAt: updatedUser.updatedAt.toLocaleString('en-GB', {hour12: true}),
+                    createdAt: updatedUser.createdAt.toLocaleString('en-GB', {hour12: true}),
                 }
             }
         } catch (err) {
