@@ -444,47 +444,47 @@ module.exports = {
     createUpdateProfile: async function ({ updateProfileData }, req) {
         console.log('the create user', updateProfileData)
 
-          if (!req.Auth) {
-              const err = new Error('Not authenticated')
-              err.statusCode = 403
-              throw err
-          }
-
-        const existingUser = await User.findOne({ email: updateProfileData.email })
-    
-        console.log('exiting', existingUser)
-        
-        if(updateProfileData.password !== ''){
-            console.log("to update password")
-            const hashedPassword = await bcrypt.hash(updateProfileData.password, 12)
-            exitingUser.password = hashedPassword
-
-        }
-        exitingUser.username = updateProfileData.username
-        exitingUser.email = updateProfileData.email
-        exitingUser.fullname = updateProfileData.fullname
-        exitingUser.city = updateProfileData.city
-        exitingUser.country = updateProfileData.country
-        exitingUser.profilePic = updateProfileData.profilePic
-        exitingUser.phone = updateProfileData.phone
-        exitingUser.bitcoinAccount = updateProfileData.bitcoinAccount
-        exitingUser.ethereumAccount = updateProfileData.ethereumAccount
-
-        if (updateProfileData.imageUrl !== 'undefined') {
-            existingUser.imageUrl = updateProfileData.imageUrl
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
         }
 
-        const updatedUser = await exitingUser.save()
-        console.log('updated the user', updatedUser)
+        const existingUser = await User.findOne({
+            email: updateProfileData.email,
+        })
 
-        if (updatedUser) {
-            return {
-                ...updatedUser._doc,
-                _id: updatedUser._id.toString(),
-                updatedAt: updatedUser.updatedAt.toISOString(),
-                createdAt: updatedUser.createdAt.toISOString()
+        console.log('exiting user', existingUser)
+
+        try {
+            // if(updateProfileData.password !== ''){
+            //     console.log("to update password")
+            //     const hashedPassword = await bcrypt.hash(updateProfileData.password, 12)
+            //     exitingUser.password = hashedPassword
+
+            // }
+            existingUser.username = updateProfileData.username
+            existingUser.email = updateProfileData.email
+            existingUser.fullname = updateProfileData.fullname
+            existingUser.city = updateProfileData.city
+            existingUser.country = updateProfileData.country
+            existingUser.phone = updateProfileData.phone
+            existingUser.bitcoinAccount = updateProfileData.bitcoinAccount
+            existingUser.ethereumAccount = updateProfileData.ethereumAccount
+
+            const updatedUser = await existingUser.save()
+            console.log('updated the user', updatedUser)
+
+            if (updatedUser) {
+                return {
+                    ...updatedUser._doc,
+                    _id: updatedUser._id.toString(),
+                    updatedAt: updatedUser.updatedAt.toISOString(),
+                    createdAt: updatedUser.createdAt.toISOString(),
+                }
             }
+        } catch (err) {
+            console.log('update failed', err)
         }
-       
     },
 }
