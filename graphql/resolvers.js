@@ -181,16 +181,16 @@ module.exports = {
     },
 
     getUsers: async function (arg, req) {
-        console.log('the getUser', req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
             throw err
         }
-        const user = await User.findById()
+        const getUsers = await User.findById()
+        
+        console.log('the getUsers', getUsers)
 
-
-        if (!user) {
+        if (!getUsers) {
             const error = new Error('No Users')
             error.statusCode = 404
             throw error
