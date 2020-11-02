@@ -166,7 +166,7 @@ module.exports = {
     },
 
     getUser: async function (arg, req) {
-        console.log("the getUser", req.Auth)
+        console.log('the getUser', req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -233,7 +233,6 @@ module.exports = {
         }
     },
     getFunds: async function (arg, req) {
-
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -257,7 +256,7 @@ module.exports = {
                     _id: p._id.toString(),
                     creator: p.creator,
                     createdAt: p.createdAt.toISOString(),
-                    updatedAt: p.updatedAt.toISOString()
+                    updatedAt: p.updatedAt.toISOString(),
                 }
             }),
         }
@@ -438,5 +437,70 @@ module.exports = {
             ...updatedUser._doc,
             _id: updatedUser._id.toString(),
         }
+    },
+
+    //Profile
+
+    createUpdateProfile: async function ({ updateProfileData }, req) {
+        console.log('the create user', updateProfileData)
+        const error = []
+
+          if (!req.Auth) {
+              const err = new Error('Not authenticated')
+              err.statusCode = 403
+              throw err
+          }
+       
+        if (
+            !validator.isLength(updateProfileData.password, { min: 6 })
+        ) {
+            error.push({
+                message: 'Password must be at least 6 characters long',
+            })
+        }
+
+        if (error.length > 0) {
+            const err = new Error('Invalid User Input')
+            err.statusCode = 422
+            err.data = error
+            throw err
+        }
+
+        const existingUser = await User.findOne({ email: updateProfileData.email })
+    
+        console.log('exiting', existingUser)
+                    exitingUser.username = updateProfileData.username,
+                    exitingUser.email = updateProfileData.email,
+                    exitingUser.password = hashedPassword,
+                    exitingUser.fullname = updateProfileData.fullname,
+                    exitingUser.secretQuestion = updateProfileData.secretQuestion,
+                    exitingUser.secretAnswer = updateProfileData.secretAnswer,
+                    exitingUser.bitcoinAccount = updateProfileData.bitcoinAccount,
+                    exitingUser.ethereumAccount = updateProfileData.ethereumAccount,
+
+         post.title = postData.title
+         post.content = postData.content
+         if (postData.imageUrl !== 'undefined') {
+             post.imageUrl = postData.imageUrl
+         }
+    
+         if(updateProfileData.password){
+             const hashedPassword = await bcrypt.hash(updateProfileData.password, 12)
+
+         }
+
+              
+
+                const createdUser = await newUser.save()
+                console.log('created the user')
+
+                if (createdUser) {
+                    return {
+                        ...createdUser._doc,
+                        _id: createdUser._id.toString(),
+                    }
+                }
+            
+       
     },
 }
