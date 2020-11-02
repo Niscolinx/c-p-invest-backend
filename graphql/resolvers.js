@@ -275,7 +275,7 @@ module.exports = {
         }
 
         return {
-            getFund: getFunds.map((p) => {
+            getFund: getFunds.map((p, i) => {
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
