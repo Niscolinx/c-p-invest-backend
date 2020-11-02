@@ -119,7 +119,6 @@ module.exports = {
 
         const userExits = await User.findOne({ email })
 
-
         if (!userExits) {
             const error = new Error('User does not exist')
             error.statusCode = 401
@@ -127,7 +126,6 @@ module.exports = {
         }
 
         const checkPassword = await bcrypt.compare(password, userExits.password)
-
 
         if (!checkPassword) {
             const error = new Error('Incorrect Password')
@@ -140,7 +138,6 @@ module.exports = {
             'supersecretkey',
             { expiresIn: '2hr' }
         )
-
 
         // const mailSent = await mailTransport.sendMail({
         //     to: email,
@@ -173,7 +170,6 @@ module.exports = {
             throw error
         }
 
-
         return {
             ...user._doc,
             _id: user._id.toString(),
@@ -187,8 +183,8 @@ module.exports = {
             err.statusCode = 403
             throw err
         }
-        const getUsers = await User.find({role:'Customer'})
-        
+        const getUsers = await User.find({ role: 'Customer' })
+
         console.log('the getUsers', getUsers)
 
         if (!getUsers) {
@@ -197,15 +193,18 @@ module.exports = {
             throw error
         }
 
-
         return {
             getUser: getUsers.map((p, i) => {
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
                     userNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
                 }
             }),
         }
@@ -249,8 +248,12 @@ module.exports = {
             return {
                 ...saveFundAccount._doc,
                 _id: saveFundAccount._id.toString(),
-                createdAt: saveFundAccount.createdAt.toLocaleString('en-GB', {hour12: true}),
-                updatedAt: saveFundAccount.updatedAt.toLocaleString('en-GB', {hour12: true}),
+                createdAt: saveFundAccount.createdAt.toLocaleString('en-GB', {
+                    hour12: true,
+                }),
+                updatedAt: saveFundAccount.updatedAt.toLocaleString('en-GB', {
+                    hour12: true,
+                }),
             }
         } catch (err) {
             console.log('err', err)
@@ -273,9 +276,11 @@ module.exports = {
             err.statusCode = 422
             throw err
         }
+        let theCreator = []
 
         return {
             getFund: getFunds.map((p, i) => {
+                theCreator.push(p.creator)
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
@@ -289,6 +294,7 @@ module.exports = {
                     }),
                 }
             }),
+            creator: theCreator,
         }
     },
     updatePost: async function ({ id, postData }, req) {
@@ -349,8 +355,12 @@ module.exports = {
         return {
             ...updatedPost._doc,
             _id: updatedPost._id.toString(),
-            createdAt: updatedPost.createdAt.toLocaleString('en-GB', {hour12: true}),
-            updatedAt: updatedPost.updatedAt.toLocaleString('en-GB', {hour12: true}),
+            createdAt: updatedPost.createdAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
+            updatedAt: updatedPost.updatedAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
         }
     },
 
@@ -420,8 +430,12 @@ module.exports = {
                     ...p._doc,
                     _id: p._id.toString(),
                     status: p.creator.status,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {hour12: true}),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {hour12: true}),
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
                 }
             }),
             totalPosts,
@@ -446,8 +460,8 @@ module.exports = {
 
         return {
             ...post._doc,
-            createdAt: post.createdAt.toLocaleString('en-GB', {hour12: true}),
-            updatedAt: post.updatedAt.toLocaleString('en-GB', {hour12: true}),
+            createdAt: post.createdAt.toLocaleString('en-GB', { hour12: true }),
+            updatedAt: post.updatedAt.toLocaleString('en-GB', { hour12: true }),
         }
     },
 
@@ -509,8 +523,12 @@ module.exports = {
                 return {
                     ...updatedUser._doc,
                     _id: updatedUser._id.toString(),
-                    updatedAt: updatedUser.updatedAt.toLocaleString('en-GB', {hour12: true}),
-                    createdAt: updatedUser.createdAt.toLocaleString('en-GB', {hour12: true}),
+                    updatedAt: updatedUser.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    createdAt: updatedUser.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
                 }
             }
         } catch (err) {
