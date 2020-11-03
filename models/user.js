@@ -66,6 +66,12 @@ const userSchema = new Schema(
                 ref: 'fundAccount',
             },
         ],
+        pendingDeposits: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'deposit',
+            },
+        ],
         totalDeposits: [
             {
                 type: Schema.Types.ObjectId,

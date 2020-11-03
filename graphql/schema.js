@@ -6,7 +6,7 @@ module.exports = buildSchema(`
         _id: ID!
         amount: Int!
         currency: String!
-        proofUrl: String!
+        proofUrl: String
         creator: User!
         selectedPlan: String
         status: String

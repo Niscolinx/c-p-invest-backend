@@ -275,7 +275,7 @@ module.exports = {
             const saveInvestNow = await investNow.save()
             console.log('saveAccount', saveInvestNow)
 
-            user.totalDeposits.push(saveInvestNow)
+            user.pendingDeposits.push(saveInvestNow)
 
             await user.save()
 
