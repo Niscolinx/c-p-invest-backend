@@ -99,7 +99,7 @@ const userSchema = new Schema(
         ],
 
         accountBalance: {
-            type: String,
+            type: Number,
             required: true,
             default: '0',
         },

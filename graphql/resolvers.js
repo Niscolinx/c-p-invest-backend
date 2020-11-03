@@ -159,7 +159,6 @@ module.exports = {
     },
 
     getUser: async function (arg, req) {
-        console.log('the get user')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -199,7 +198,6 @@ module.exports = {
                 _id: user._id.toString(),
             }
 
-            console.log('theUser', theUser)
 
             return {
                 user: theUser,
@@ -211,7 +209,6 @@ module.exports = {
     },
 
     getUsers: async function (arg, req) {
-        console.log('the get users', req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -219,40 +216,6 @@ module.exports = {
         }
         const getUsers = await User.find({ role: 'Customer' })
 
-        console.log('the getUsers', getUsers)
-
-        if (!getUsers) {
-            const error = new Error('No Users')
-            error.statusCode = 404
-            throw error
-        }
-
-        return {
-            getUser: getUsers.map((p, i) => {
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    userNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
-            }),
-        }
-    },
-    getFundsPaid: async function (arg, req) {
-        console.log('the get users', req.Auth)
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
-        const getUsers = await User.find({ role: 'Customer' })
-
-        console.log('the getUsers', getUsers)
 
         if (!getUsers) {
             const error = new Error('No Users')
@@ -336,7 +299,6 @@ module.exports = {
 
         const getFunds = await FundAccount.find().populate('creator')
 
-        console.log('getFunds', getFunds)
 
         if (!getFunds) {
             const err = new Error('Empty Funds')
@@ -382,7 +344,7 @@ module.exports = {
         //5fa0813980bf2e7f8371931e
         const fundAccount = await FundAccount.findById(id).populate('creator')
 
-        console.log('approval auth', fundAccount)
+        console.log('approval auth', fundAccount.creator._id)
         if (!fundAccount) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
@@ -399,6 +361,12 @@ module.exports = {
         fundAccount.status = 'Approved'
 
         const updatedFundAccount = await fundAccount.save()
+        
+        if(updatedFundAccount){
+            const user = await User.findById(fundAccount.creator._id)
+
+            console.log('the user', user)
+        }
 
         console.log('updatdFundApproval', updatedFundAccount)
 
