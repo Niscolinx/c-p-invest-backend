@@ -172,6 +172,7 @@ module.exports = {
             throw error
         }
 
+        console.log('the user', user._doc.accountBalance)
         const userFundAccount = []
         let theUser = {}
 
