@@ -204,6 +204,7 @@ module.exports = {
                 userPendingDeposit.push({
                     _id: p._id.toString(),
                     creator: p.creator,
+                    planName: p.planName,
                     status: p.status,
                     amount: p.amount,
                     currency: p.currency,
