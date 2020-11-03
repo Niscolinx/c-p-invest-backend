@@ -199,7 +199,6 @@ module.exports = {
                 _id: user._id.toString(),
             }
 
-
             return {
                 user: theUser,
                 userFundAccount: userFundAccount,
@@ -219,7 +218,6 @@ module.exports = {
             throw err
         }
         const getUsers = await User.find({ role: 'Customer' })
-
 
         if (!getUsers) {
             const error = new Error('No Users')
@@ -303,7 +301,6 @@ module.exports = {
 
         const getFunds = await FundAccount.find().populate('creator')
 
-
         if (!getFunds) {
             const err = new Error('Empty Funds')
             err.statusCode = 422
@@ -365,8 +362,8 @@ module.exports = {
         fundAccount.status = 'Approved'
 
         const updatedFundAccount = await fundAccount.save()
-        
-        if(updatedFundAccount){
+
+        if (updatedFundAccount) {
             const user = await User.findById(fundAccount.creator._id)
 
             let oldAccountBalance = user.accountBalance
@@ -374,9 +371,7 @@ module.exports = {
             user.accountBalance = oldAccountBalance + updatedFundAccount.amount
 
             await user.save()
-
         }
-
 
         return {
             ...updatedFundAccount._doc,
