@@ -98,7 +98,7 @@ module.exports = buildSchema(`
     }
 
     type getFundsData {
-        _id: String
+        _id: ID!
         status: String
         amount: String
         proofUrl: String
