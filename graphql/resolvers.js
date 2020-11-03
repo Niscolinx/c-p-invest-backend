@@ -203,10 +203,11 @@ module.exports = {
             userPendingDeposits._doc.pendingDeposits.map((p, i) => {
                 userPendingDeposit.push({
                     _id: p._id.toString(),
-                    creator: p.creator,
+                    creator: userPendingDeposits.username,
                     planName: p.planName,
                     status: p.status,
                     amount: p.amount,
+                    fundNO: i + 1,
                     currency: p.currency,
                     proofUrl: p.proofUrl,
                     createdAt: p.createdAt.toLocaleString('en-GB', {
