@@ -136,6 +136,7 @@ module.exports = buildSchema(`
     type getUserData {
         user: User!
         userFundAccount: [FundAccount!]!    
+        userPendingDeposit: [FundAccount!]!    
     }
 
     type rootQuery{

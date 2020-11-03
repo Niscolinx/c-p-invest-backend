@@ -201,6 +201,7 @@ module.exports = {
                 })
             })
             user._doc.pendingDeposits.map((p, i) => {
+                console.log('the p', p)
                 userPendingDeposit.push({
                     _id: p._id.toString(),
                     creator: p.creator,
