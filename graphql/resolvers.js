@@ -302,7 +302,9 @@ module.exports = {
             fundData: theCreator,
         }
     },
-    createApproveFundAccount: async function ({ id }, req) {
+    createFundAccountApproval: async function ({ id }, req) {
+
+        console.log('the approval account')
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -328,6 +330,8 @@ module.exports = {
         fundAccount.status = 'Approved'
 
         const updatedFundAccount = await fundAccount.save()
+
+        console.log('updatdFundApproval', updatedFundAccount)
 
         return {
             ...updatedFundAccount._doc,

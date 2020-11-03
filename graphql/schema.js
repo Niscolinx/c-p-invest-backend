@@ -91,7 +91,7 @@ module.exports = buildSchema(`
         createUser(userData: UserInputData): User!
         createFundAccount(fundData: PostFundData): FundAccount!
         createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
-        createApproveFundAccount(id: ID!): FundAccount!
+        createFundAccountApproval(id: ID!): FundAccount!
         updatePost(id: ID!, postData: PostFundData): FundAccount!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!
