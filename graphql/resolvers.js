@@ -164,7 +164,9 @@ module.exports = {
             err.statusCode = 403
             throw err
         }
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req.userId).populate('fundAccount')
+
+        console.log('the user', user._doc)
 
         if (!user) {
             const error = new Error('User not found')
@@ -175,10 +177,45 @@ module.exports = {
         return {
             ...user._doc,
             _id: user._id.toString(),
+
+            getAllFields: 
         }
     },
 
     getUsers: async function (arg, req) {
+        console.log('the get users', req.Auth)
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+        const getUsers = await User.find({ role: 'Customer' })
+
+        console.log('the getUsers', getUsers)
+
+        if (!getUsers) {
+            const error = new Error('No Users')
+            error.statusCode = 404
+            throw error
+        }
+
+        return {
+            getUser: getUsers.map((p, i) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    userNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                }
+            }),
+        }
+    },
+    getFundsPaid: async function (arg, req) {
         console.log('the get users', req.Auth)
         if (!req.Auth) {
             const err = new Error('Not authenticated')
