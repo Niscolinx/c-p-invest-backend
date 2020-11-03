@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 
 const User = require('../models/user')
 const Deposit = require('../models/deposit')
+const pendingDeposit = require('../models/pendingDeposit')
 const FundAccount = require('../models/fundAccount')
 
 const fileDelete = require('../utility/deleteFile')
