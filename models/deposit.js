@@ -4,17 +4,17 @@ const Schema = mongoose.Schema
 const depositSchema = new Schema(
     {
         amount: {
+            type: Number,
+            required: true,
+        },
+        planName: {
             type: String,
             required: true,
         },
-        packageName: {
-            type: String,
-            required: true,
-        },
-        expiryTime: {
-            type: String,
-            required: true,
-        },
+        // expiryTime: {
+        //     type: String,
+        //     required: true,
+        // },
         currency: {
             type: String,
             required: true,

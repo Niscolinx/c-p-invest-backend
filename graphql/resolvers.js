@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 //const nodeMailer = require('nodemailer')
 
 const User = require('../models/user')
+const Deposit = require('../models/deposit')
 const FundAccount = require('../models/fundAccount')
 
 const fileDelete = require('../utility/deleteFile')
@@ -242,6 +243,57 @@ module.exports = {
         }
     },
 
+    createInvestNow: async function ({ investNowData }, req) {
+        console.log('create investNow account', investNowData, req.userId)
+
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+
+        const user = await User.findById(req.userId)
+
+        console.log('user', user)
+
+        if (!user) {
+            const err = new Error('Invalid User')
+            err.statusCode = 422
+            throw err
+        }
+
+        try {
+            const investNow = new Deposit({
+                amount: investNowData.amount,
+                planName: investNowData.selectedPlan,
+                currency: investNowData.currency,
+                proofUrl: investNowData.proofUrl,
+                creator: user,
+            })
+
+            await investNow.save()
+            const saveInvestNow = await investNow.save()
+            console.log('saveAccount', saveInvestNow)
+
+            user.totalDeposits.push(saveInvestNow)
+
+            await user.save()
+
+            return {
+                ...saveInvestNow._doc,
+                _id: saveInvestNow._id.toString(),
+                createdAt: saveInvestNow.createdAt.toLocaleString('en-GB', {
+                    hour12: true,
+                }),
+                updatedAt: saveInvestNow.updatedAt.toLocaleString('en-GB', {
+                    hour12: true,
+                }),
+            }
+        } catch (err) {
+            console.log('err', err)
+            throw new Error(err)
+        }
+    },
     createFundAccount: async function ({ fundData }, req) {
         console.log('fund account', fundData, req.userId)
 
