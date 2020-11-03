@@ -172,7 +172,7 @@ module.exports = {
             throw error
         }
 
-        console.log('the user', user._doc.accountBalance)
+        console.log('the user', user._doc)
         const userFundAccount = []
         let theUser = {}
 
@@ -203,6 +203,9 @@ module.exports = {
             return {
                 user: theUser,
                 userFundAccount: userFundAccount,
+                // userTotalDeposits: user._doc.totalDeposits,
+                // userTotalWithdrawals: user._doc.totalWithdrawals,
+                // userAccountBalance: user._doc.lastWithdrawal,
             }
         } catch (err) {
             console.log('the error of get user', err)

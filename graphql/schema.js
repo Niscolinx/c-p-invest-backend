@@ -21,6 +21,7 @@ module.exports = buildSchema(`
         fullname: String!
         password: String!
         secretQuestion: String!
+        accountBalance: Int!
         secretAnswer: String!
         ethereumAccount: String
         bitcoinAccount: String
@@ -127,7 +128,6 @@ module.exports = buildSchema(`
     type getUserData {
         user: User!
         userFundAccount: [FundAccount!]!    
-        userAccountBalance: Int!
     }
 
     type rootQuery{
