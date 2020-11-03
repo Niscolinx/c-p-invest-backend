@@ -86,18 +86,22 @@ module.exports = buildSchema(`
         proofUrl: String!
     }
 
+    input PostId {
+        id: String
+    }
     
     type RootMutation {
         createUser(userData: UserInputData): User!
         createFundAccount(fundData: PostFundData): FundAccount!
         createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
-        createFundAccountApproval(id: ID!): FundAccount!
+        createFundAccountApproval(PostId: PostId): FundAccount!
         updatePost(id: ID!, postData: PostFundData): FundAccount!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!
     }
 
     type getFundsData {
+        _id: ID!
         status: String
         amount: String
         proofUrl: String

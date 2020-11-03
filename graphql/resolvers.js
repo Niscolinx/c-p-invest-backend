@@ -1,6 +1,8 @@
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
+
 //const nodeMailer = require('nodemailer')
 
 const User = require('../models/user')
@@ -281,6 +283,7 @@ module.exports = {
         return {
             getFund: getFunds.map((p, i) => {
                 theCreator.push({
+                    _id: p._id.toString(),
                     creator: p.creator.username,
                     status: p._doc.status,
                     amount: p._doc.amount,
@@ -303,8 +306,11 @@ module.exports = {
         }
     },
     createFundAccountApproval: async function ({ id }, req) {
+        //id = mongoose.Types.ObjectId(id)
+        mongoose.Types.ObjectId(id)
+        console.log(id, typeof id, typeof objectId)
 
-        console.log('the approval account')
+        console.log('the approval account', req.Auth)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -312,8 +318,12 @@ module.exports = {
             throw err
         }
 
-        const fundAccount = await FundAccount.findById(id).populate('creator')
+        //5fa0813980bf2e7f8371931e
+        const fundAccount = await FundAccount.findById(
+            ({'$toObjectId': id})
+        ).populate('creator')
 
+        console.log('approval auth', fundAccount)
         if (!fundAccount) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
