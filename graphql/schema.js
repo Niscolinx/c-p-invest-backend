@@ -8,7 +8,7 @@ module.exports = buildSchema(`
         currency: String!
         proofUrl: String
         creator: User!
-        selectedPlan: String
+        planName: String
         status: String
         fundNO: Int
         createdAt: String!
