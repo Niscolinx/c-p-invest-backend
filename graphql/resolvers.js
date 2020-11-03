@@ -281,6 +281,7 @@ module.exports = {
         return {
             getFund: getFunds.map((p, i) => {
                 theCreator.push({
+                    _id: p._id.toString(),
                     creator: p.creator.username,
                     status: p._doc.status,
                     amount: p._doc.amount,
@@ -308,6 +309,44 @@ module.exports = {
                 // }
             }),
             fundData: theCreator,
+        }
+    },
+    createApproveFundAccount: async function ({ id }, req) {
+
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+
+        const fundAccount = await FundAccount.findById(id).populate('creator')
+
+        if (!fundAccount) {
+            const error = new Error('Funds not found!')
+            error.statusCode = 404
+            throw error
+        }
+
+        //Delete Picture
+        // post.title = postData.title
+        // post.content = postData.content
+        // if (postData.imageUrl !== 'undefined') {
+        //     post.imageUrl = postData.imageUrl
+        // }
+
+        fundAccount.status = 'Approved'
+
+        const updatedFundAccount = await fundAccount.save()
+
+        return {
+            ...updatedFundAccount._doc,
+            _id: updatedFundAccount._id.toString(),
+            createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
+            updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
         }
     },
     updatePost: async function ({ id, postData }, req) {
