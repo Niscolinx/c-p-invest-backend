@@ -281,7 +281,9 @@ module.exports = {
 
             user.pendingDeposits.push(saveInvestNow)
 
-            await user.save()
+            const userPendingInvest = await user.save()
+
+            console.log('the user invest update', userPendingInvest)
 
             return {
                 ...saveInvestNow._doc,

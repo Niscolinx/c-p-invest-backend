@@ -11,6 +11,11 @@ const pendingDepositSchema = new Schema(
             type: String,
             required: true,
         },
+        status: {
+            type: String,
+            required: true,
+            default: 'Pending'
+        },
         // expiryTime: {
         //     type: String,
         //     required: true,
