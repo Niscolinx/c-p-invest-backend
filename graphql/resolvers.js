@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 
 const User = require('../models/user')
 const Deposit = require('../models/deposit')
-const pendingDeposit = require('../models/pendingDeposit')
+const PendingDeposit = require('../models/pendingDeposit')
 const FundAccount = require('../models/fundAccount')
 
 const fileDelete = require('../utility/deleteFile')
@@ -264,7 +264,7 @@ module.exports = {
         }
 
         try {
-            const investNow = new Deposit({
+            const investNow = new PendingDeposit({
                 amount: investNowData.amount,
                 planName: investNowData.selectedPlan,
                 currency: investNowData.currency,
