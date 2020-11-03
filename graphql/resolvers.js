@@ -167,14 +167,19 @@ module.exports = {
             throw err
         }
         const user = await User.findById(req.userId).populate('fundAccount')
-        const userPendingDeposit = await User.findById(req.userId).populate('pendingDeposits')
-
-        console.log('the user pending ', userPendingDeposit._doc)
 
         if (!user) {
             const error = new Error('User not found')
             error.statusCode = 404
             throw error
+        }
+
+        if(user){
+             const userPendingDeposit = await User.findById(
+                 req.userId
+             ).populate('fundAccount')
+
+             console.log('the user pending ', userPendingDeposit)
         }
 
         console.log('the user', user._doc)
