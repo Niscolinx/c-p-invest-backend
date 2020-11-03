@@ -159,6 +159,7 @@ module.exports = {
     },
 
     getUser: async function (arg, req) {
+        console.log('the get user')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -166,19 +167,46 @@ module.exports = {
         }
         const user = await User.findById(req.userId).populate('fundAccount')
 
-        console.log('the user', user._doc)
-
         if (!user) {
             const error = new Error('User not found')
             error.statusCode = 404
             throw error
         }
 
-        return {
-            ...user._doc,
-            _id: user._id.toString(),
+        const userFundAccount = []
+        const theUser = []
 
-            getAllFields: 
+        try {
+            user._doc.fundAccount.map((p, i) => {
+                userFundAccount.push({
+                    _id: p._id.toString(),
+                    creator: p.creator,
+                    status: p.status,
+                    amount: p.amount,
+                    currency: p.currency,
+                    proofUrl: p.proofUrl,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                })
+            })
+
+            theUser.push({
+                ...user._doc,
+                _id: user._id.toString(),
+            })
+
+            console.log('theUser', theUser)
+
+            return {
+                user: theUser,
+                userFundAccount: userFundAccount,
+            }
+        } catch (err) {
+            console.log('the error of get user', err)
         }
     },
 

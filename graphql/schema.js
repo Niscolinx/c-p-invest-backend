@@ -121,7 +121,12 @@ module.exports = buildSchema(`
 
     }
     type getUsersData {
-        getUser: [User!]!     
+        getUser: [User!]! 
+        userFundAccount: [FundAccount!]!    
+    }
+    type getUserData {
+        user: [User!]! 
+        userFundAccount: [FundAccount!]!    
     }
 
     type rootQuery{
@@ -129,7 +134,7 @@ module.exports = buildSchema(`
         getFunds: getFundData!
         getPosts(page: Int): PostData!
         post(id: ID!): FundAccount!
-        getUser: User!
+        getUser: getUserData!
         getUsers: getUsersData!
     }
 
