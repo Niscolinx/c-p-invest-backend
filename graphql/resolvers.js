@@ -305,54 +305,52 @@ module.exports = {
             fundData: theCreator,
         }
     },
-    createFundAccountApproval: async function ({ id }, req) {
+    createFundAccountApproval: async function ({id}, req) {
         //id = mongoose.Types.ObjectId(id)
-        mongoose.Types.ObjectId(id)
-        console.log(id, typeof id, typeof objectId)
+        console.log('the id', id, typeof id)
+    //    let id =  mongoose.Types.ObjectId(arg.id)
 
-        console.log('the approval account', req.Auth)
+    //     console.log('the approval account', req.Auth)
 
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
 
-        //5fa0813980bf2e7f8371931e
-        const fundAccount = await FundAccount.findById(
-            ({'$toObjectId': id})
-        ).populate('creator')
+    //     //5fa0813980bf2e7f8371931e
+    //     const fundAccount = await FundAccount.findById(id).populate('creator')
 
-        console.log('approval auth', fundAccount)
-        if (!fundAccount) {
-            const error = new Error('Funds not found!')
-            error.statusCode = 404
-            throw error
-        }
+    //     console.log('approval auth', fundAccount)
+    //     if (!fundAccount) {
+    //         const error = new Error('Funds not found!')
+    //         error.statusCode = 404
+    //         throw error
+    //     }
 
-        //Delete Picture
-        // post.title = postData.title
-        // post.content = postData.content
-        // if (postData.imageUrl !== 'undefined') {
-        //     post.imageUrl = postData.imageUrl
-        // }
+    //     //Delete Picture
+    //     // post.title = postData.title
+    //     // post.content = postData.content
+    //     // if (postData.imageUrl !== 'undefined') {
+    //     //     post.imageUrl = postData.imageUrl
+    //     // }
 
-        fundAccount.status = 'Approved'
+    //     fundAccount.status = 'Approved'
 
-        const updatedFundAccount = await fundAccount.save()
+    //     const updatedFundAccount = await fundAccount.save()
 
-        console.log('updatdFundApproval', updatedFundAccount)
+    //     console.log('updatdFundApproval', updatedFundAccount)
 
-        return {
-            ...updatedFundAccount._doc,
-            _id: updatedFundAccount._id.toString(),
-            createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-            updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-        }
+    //     return {
+    //         ...updatedFundAccount._doc,
+    //         _id: updatedFundAccount._id.toString(),
+    //         createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
+    //             hour12: true,
+    //         }),
+    //         updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
+    //             hour12: true,
+    //         }),
+    //     }
     },
     updatePost: async function ({ id, postData }, req) {
         const error = []
