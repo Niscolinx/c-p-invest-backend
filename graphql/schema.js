@@ -8,6 +8,7 @@ module.exports = buildSchema(`
         currency: String!
         proofUrl: String!
         creator: User!
+        selectedPlan: String
         status: String
         fundNO: Int
         createdAt: String!
@@ -86,6 +87,12 @@ module.exports = buildSchema(`
         currency: String!
         proofUrl: String!
     }
+    input PostInvestNowData {
+        amount: String
+        currency: String!
+        proofUrl: String!
+        selectedPlan: String!
+    }
 
     input PostId {
         id: String
@@ -94,6 +101,7 @@ module.exports = buildSchema(`
     type RootMutation {
         createUser(userData: UserInputData): User!
         createFundAccount(fundData: PostFundData): FundAccount!
+        createInvestNow(investNowData: PostInvestNowData): FundAccount!
         createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
         createFundAccountApproval(PostId: PostId): FundAccount!
         updatePost(id: ID!, postData: PostFundData): FundAccount!
