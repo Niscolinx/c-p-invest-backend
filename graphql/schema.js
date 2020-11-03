@@ -98,7 +98,6 @@ module.exports = buildSchema(`
     }
 
     type getFundsData {
-        _id: ID!
         status: String
         amount: String
         proofUrl: String
@@ -115,6 +114,8 @@ module.exports = buildSchema(`
     }
     type getFundData {
         fundData: [getFundsData!]!   
+         getFund: [FundAccount!]!
+
     }
     type getUsersData {
         getUser: [User!]!     
