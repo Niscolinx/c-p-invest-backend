@@ -177,7 +177,7 @@ module.exports = {
         if(user){
              const userPendingDeposit = await User.findById(
                  req.userId
-             ).populate('pendingDeposits')
+             ).populate('pendingDeposit')
 
              console.log('the user pending ', userPendingDeposit)
         }
