@@ -367,17 +367,12 @@ module.exports = {
 
             let oldAccountBalance = user.accountBalance
 
-            console.log('the updates of updatedFund', updatedFundAccount)
-            console.log('the updates of user', user)
-
             user.accountBalance = oldAccountBalance + updatedFundAccount.amount
 
-            const updatedUser = user.save()
+            await user.save()
 
-            console.log('the user', updatedUser)
         }
 
-        console.log('updatdFundApproval', updatedFundAccount)
 
         return {
             ...updatedFundAccount._doc,
