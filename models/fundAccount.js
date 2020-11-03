@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const fundAccountSchema = new Schema(
   {
     amount: {
-      type: String,
+      type: Number,
       required: true
     },
     proofUrl: {

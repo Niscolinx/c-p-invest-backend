@@ -4,7 +4,7 @@ module.exports = buildSchema(`
 
     type FundAccount {
         _id: ID!
-        amount: String!
+        amount: Int!
         currency: String!
         proofUrl: String!
         creator: User!
@@ -81,7 +81,7 @@ module.exports = buildSchema(`
     }
 
     input PostFundData {
-        amount: String!
+        amount: String
         currency: String!
         proofUrl: String!
     }
@@ -102,7 +102,7 @@ module.exports = buildSchema(`
 
     type getFundsData {
         status: String
-        amount: String
+        amount: Int
         proofUrl: String
         currency: String
         creator: String

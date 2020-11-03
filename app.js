@@ -14,7 +14,7 @@ const { graphqlHTTP } = require('express-graphql')
 const graphqlSchema = require('./graphql/schema')
 const graphqlResolver = require('./graphql/resolvers')
 
-const app = express() 
+const app = express()
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -66,11 +66,12 @@ app.put('/api/post-image', (req, res, next) => {
     if (!req.Auth) {
         throw new Error('Not authenticated!')
     }
-    
+
     if (!req.file) {
         res.status(200).json({ message: 'No file uploaded' })
+        return next()
     }
-    
+
     if (req.file && req.body.oldImage) {
         deleteFile.deleteFile(req.body.oldImage)
     }

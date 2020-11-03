@@ -344,7 +344,7 @@ module.exports = {
         //5fa0813980bf2e7f8371931e
         const fundAccount = await FundAccount.findById(id).populate('creator')
 
-        console.log('approval auth', fundAccount.creator._id)
+        console.log('approval auth', fundAccount)
         if (!fundAccount) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
@@ -365,7 +365,16 @@ module.exports = {
         if(updatedFundAccount){
             const user = await User.findById(fundAccount.creator._id)
 
-            console.log('the user', user)
+            let oldAccountBalance = user.accountBalance
+
+            console.log('the updates of updatedFund', updatedFundAccount)
+            console.log('the updates of user', user)
+
+            user.accountBalance = oldAccountBalance + updatedFundAccount.amount
+
+            const updatedUser = user.save()
+
+            console.log('the user', updatedUser)
         }
 
         console.log('updatdFundApproval', updatedFundAccount)
