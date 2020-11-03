@@ -167,11 +167,11 @@ module.exports = {
             throw err
         }
         const user = await User.findById(req.userId).populate('fundAccount')
-        const userPendingDeposit = await User.findById(req.userId).populate(
+        const userPendingDeposits = await User.findById(req.userId).populate(
             'pendingDeposits'
         )
 
-        console.log('the user pending ', userPendingDeposit)
+        console.log('the user pending ', userPendingDeposits)
 
         if (!user) {
             const error = new Error('User not found')
@@ -179,13 +179,29 @@ module.exports = {
             throw error
         }
 
-        console.log('the user', user._doc)
         const userFundAccount = []
+        const userPendingDeposit = []
         let theUser = {}
 
         try {
             user._doc.fundAccount.map((p, i) => {
                 userFundAccount.push({
+                    _id: p._id.toString(),
+                    creator: p.creator,
+                    status: p.status,
+                    amount: p.amount,
+                    currency: p.currency,
+                    proofUrl: p.proofUrl,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                })
+            })
+            user._doc.pendingDeposits.map((p, i) => {
+                userPendingDeposit.push({
                     _id: p._id.toString(),
                     creator: p.creator,
                     status: p.status,
