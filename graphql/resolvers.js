@@ -225,7 +225,8 @@ module.exports = {
 
             return {
                 user: theUser,
-                userFundAccount: userFundAccount,
+                userFundAccount,
+                userPendingDeposit
                 // userTotalDeposits: user._doc.totalDeposits,
                 // userTotalWithdrawals: user._doc.totalWithdrawals,
                 // userAccountBalance: user._doc.lastWithdrawal,
