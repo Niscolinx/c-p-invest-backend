@@ -174,7 +174,7 @@ module.exports = {
         }
 
         const userFundAccount = []
-        const theUser = []
+        let theUser = {}
 
         try {
             user._doc.fundAccount.map((p, i) => {
@@ -194,10 +194,10 @@ module.exports = {
                 })
             })
 
-            theUser.push({
+            theUser = {
                 ...user._doc,
                 _id: user._id.toString(),
-            })
+            }
 
             console.log('theUser', theUser)
 

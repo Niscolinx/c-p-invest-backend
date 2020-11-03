@@ -125,7 +125,7 @@ module.exports = buildSchema(`
         userFundAccount: [FundAccount!]!    
     }
     type getUserData {
-        user: [User!]! 
+        user: User!
         userFundAccount: [FundAccount!]!    
     }
 
