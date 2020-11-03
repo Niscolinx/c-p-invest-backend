@@ -69,7 +69,7 @@ const userSchema = new Schema(
         pendingDeposits: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'deposit',
+                ref: 'pendingDeposit',
             },
         ],
         totalDeposits: [
