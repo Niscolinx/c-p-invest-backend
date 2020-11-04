@@ -277,8 +277,8 @@ module.exports = {
             throw err
         }
         const user = await User.findById(req.userId)
-        const withdrawal = await Withdrawal.find({creator: req.userId})
-        const deposit = await Deposit.find({creator: req.userId})
+        const withdrawal = await Withdrawal.find({creator: req.userId}).populate('creator')
+        const deposit = await Deposit.find({creator: req.userId}).populate('creator')
         console.log('the withdrawal', withdrawal, deposit)
 
         if (!user) {
