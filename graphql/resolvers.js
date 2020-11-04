@@ -270,46 +270,53 @@ module.exports = {
         }
     },
     getUserHistory: async function (arg, req) {
+        console.log('the deposit history')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
             throw err
         }
-        const getUsers = await User.find({ role: 'Customer' })
+        const user = await User.findById(req.userId)
 
-        if (!getUsers) {
-            const error = new Error('No Users')
+        if (!user) {
+            const error = new Error('User not found!')
             error.statusCode = 404
             throw error
         }
 
-        return {
-            getUserDepositHistory: getUsers.map((p, i) => {
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    userNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
-            }),
-            getUserWithdrawalHistory: getUsers.map((p, i) => {
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    userNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
-            }),
+        console.log('user', user)
+
+        try {
+            return {
+                getUserDepositHistory: getUsers.map((p, i) => {
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                        userNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    }
+                }),
+                getUserWithdrawalHistory: getUsers.map((p, i) => {
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                        userNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    }
+                }),
+            }
+        } catch (err) {
+            console.log(err)
         }
     },
 
@@ -356,16 +363,21 @@ module.exports = {
 
             await user.save()
 
-
             return {
                 ...savePendingWithdrawNow._doc,
                 _id: savePendingWithdrawNow._id.toString(),
-                createdAt: savePendingWithdrawNow.createdAt.toLocaleString('en-GB', {
-                    hour12: true,
-                }),
-                updatedAt: savePendingWithdrawNow.updatedAt.toLocaleString('en-GB', {
-                    hour12: true,
-                }),
+                createdAt: savePendingWithdrawNow.createdAt.toLocaleString(
+                    'en-GB',
+                    {
+                        hour12: true,
+                    }
+                ),
+                updatedAt: savePendingWithdrawNow.updatedAt.toLocaleString(
+                    'en-GB',
+                    {
+                        hour12: true,
+                    }
+                ),
             }
         } catch (err) {
             console.log('err', err)
@@ -490,8 +502,10 @@ module.exports = {
             const pendingDeposit = await PendingDeposit.find().populate(
                 'creator'
             )
-            
-            const pendingWithdrawal = await PendingWithdrawal.find().populate('creator')
+
+            const pendingWithdrawal = await PendingWithdrawal.find().populate(
+                'creator'
+            )
 
             if (!getFunds) {
                 const err = new Error('No Funds for Funding')
@@ -580,7 +594,7 @@ module.exports = {
                 }),
                 fundData: theCreator,
                 thePendingDeposit,
-                thePendingWithdrawal
+                thePendingWithdrawal,
             }
         } catch (err) {
             console.log(err)
@@ -596,9 +610,9 @@ module.exports = {
             throw err
         }
 
-        const pendingWithdrawal = await PendingWithdrawal
-            .findById(id)
-            .populate('creator')
+        const pendingWithdrawal = await PendingWithdrawal.findById(id).populate(
+            'creator'
+        )
 
         if (!pendingWithdrawal) {
             const error = new Error('Funds not found!')
