@@ -484,19 +484,21 @@ module.exports = {
         const deposit = new Deposit({
             amount: pendingDeposit.amount,
             currency: pendingDeposit.currency,
-            proofUrl: pendingDeposit.proofUrl,
+            planName: pendingDeposit.planName,
             creator: user,
         })
 
         const newDeposit = await deposit.save()
 
+        console.log('the new deposit', newDeposit)
+
         return {
-            ...updatedFundAccount._doc,
-            _id: updatedFundAccount._id.toString(),
-            createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
+            ...newDeposit._doc,
+            _id: newDeposit._id.toString(),
+            createdAt: newDeposit.createdAt.toLocaleString('en-GB', {
                 hour12: true,
             }),
-            updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
+            updatedAt: newDeposit.updatedAt.toLocaleString('en-GB', {
                 hour12: true,
             }),
         }
