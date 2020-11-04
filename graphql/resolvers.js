@@ -441,6 +441,7 @@ module.exports = {
             throw err
         }
 
+        try{
         const getFunds = await FundAccount.find().populate('creator')
         const pendingDeposit = await PendingDeposit.find().populate('creator')
 
@@ -502,6 +503,10 @@ module.exports = {
             fundData: theCreator,
             thePendingDeposit,
         }
+    }
+    catch(err){
+        console.log(err)
+    }
     },
     createWithdrawNowApproval: async function ({ PostId }, req) {
         console.log('withdraw now approval', PostId)
