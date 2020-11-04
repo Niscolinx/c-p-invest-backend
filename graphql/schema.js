@@ -107,7 +107,7 @@ module.exports = buildSchema(`
         createUser(userData: UserInputData): User!
         createFundAccount(fundData: PostFundData): FundAccount!
         createInvestNow(investNowData: PostInvestNowData): FundAccount!
-        createWithdrawNow(withdrawNowData: PostwithdrawNowData): FundAccount!
+        createWithdrawNow(withdrawNowData: PostWithdrawNowData): FundAccount!
         createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
         createFundAccountApproval(PostId: PostId): FundAccount!
         createInvestNowApproval(PostId: PostId): FundAccount!
