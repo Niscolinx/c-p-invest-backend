@@ -277,6 +277,8 @@ module.exports = {
             throw err
         }
         const user = await User.findById(req.userId)
+        const withdrawal = await Withdrawal.find()
+        console.log('the withdrawal', withdrawal)
 
         if (!user) {
             const error = new Error('User not found!')
