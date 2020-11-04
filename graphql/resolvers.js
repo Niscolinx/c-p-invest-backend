@@ -305,11 +305,10 @@ module.exports = {
                 creator: user,
             })
 
-            await PendingWithdrawalNow.save()
-            const saveWithdrawNow = await WithdrawNow.save()
-            console.log('saveAccount', saveWithdrawNow)
+            const savePendingWithdrawNow = await PendingWithdrawalNow.save()
+            console.log('saveAccount', savePendingWithdrawNow)
 
-            user.pendingDeposits.push(saveWithdrawNow)
+            user.pendingWithdrawals.push(savePendingWithdrawNow)
 
             const userPendingWithdraw = await user.save()
 
@@ -511,12 +510,12 @@ module.exports = {
             throw err
         }
 
-        const pendingDeposit = await PendingDeposit.findById(id).populate(
+        const pendingWithdrawal = await pendingWithdrawal.findById(id).populate(
             'creator'
         )
 
-        console.log('approval auth', pendingDeposit)
-        if (!pendingDeposit) {
+        console.log('approval auth', pendingWithdrawal)
+        if (!pendingWithdrawal) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
             throw error
@@ -529,49 +528,48 @@ module.exports = {
         //     post.imageUrl = postData.imageUrl
         // }
 
-        const oldStatus = pendingDeposit.status
+        const oldStatus = pendingWithdrawal.status
 
         if (oldStatus !== 'Approved') {
-            pendingDeposit.status = 'Approved'
+            pendingWithdrawal.status = 'Approved'
         } else {
-            const error = new Error('Deposit already approved')
+            const error = new Error('Withdrawal already approved')
             error.statusCode = 404
             throw error
         }
 
-        const updatedpendingDeposit = await pendingDeposit.save()
+        const updatedpendingWithdrawal = await pendingWithdrawal.save()
 
-        console.log('the updated deposit', updatedpendingDeposit)
+        console.log('the updated withdrawal', updatedpendingWithdrawal)
 
-        if (updatedpendingDeposit) {
-            const user = await User.findById(pendingDeposit.creator._id)
+        if (updatedpendingWithdrawal) {
+            const user = await User.findById(pendingWithdrawal.creator._id)
 
             let oldAccountBalance = user.accountBalance
 
             user.accountBalance =
-                oldAccountBalance - updatedpendingDeposit.amount
+                oldAccountBalance - updatedpendingWithdrawal.amount
 
             await user.save()
 
             try {
-                const deposit = new Deposit({
-                    amount: pendingDeposit.amount,
-                    currency: pendingDeposit.currency,
-                    planName: pendingDeposit.planName,
+                const WithdrawalNow = new Withdrawal({
+                    amount: pendingWithdrawal.amount,
+                    currency: pendingWithdrawal.currency,
                     creator: user,
                 })
 
-                const newDeposit = await deposit.save()
+                const newWithdrawal = await WithdrawalNow.save()
 
-                console.log('the new deposit', newDeposit)
+                console.log('the new Withdrawal', newWithdrawal)
 
                 return {
-                    ...newDeposit._doc,
-                    _id: newDeposit._id.toString(),
-                    createdAt: newDeposit.createdAt.toLocaleString('en-GB', {
+                    ...newWithdrawal._doc,
+                    _id: newWithdrawal._id.toString(),
+                    createdAt: newWithdrawal.createdAt.toLocaleString('en-GB', {
                         hour12: true,
                     }),
-                    updatedAt: newDeposit.updatedAt.toLocaleString('en-GB', {
+                    updatedAt: newWithdrawal.updatedAt.toLocaleString('en-GB', {
                         hour12: true,
                     }),
                 }

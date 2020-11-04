@@ -1,12 +1,13 @@
-import { Schema as _Schema, model } from 'mongoose'
-const Schema = _Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const pendingWithdrawal = new Schema(
+const pendingWithdrawalSchema = new Schema(
     {
         amount: {
             type: Number,
             required: true,
         },
+     
         status: {
             type: String,
             required: true,
@@ -25,4 +26,4 @@ const pendingWithdrawal = new Schema(
     { timestamps: true }
 )
 
-module.exports = mongoose.model('pendingWithdrawal', pendingWithdrawal)
+module.exports = mongoose.model('pendingWithdrawal', pendingWithdrawalSchema)
