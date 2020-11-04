@@ -447,9 +447,21 @@ module.exports = {
             const pendingDeposit = await PendingDeposit.find().populate(
                 'creator'
             )
+            
+            const pendingWithdrawal = await PendingWithdrawal.find().populate('creator')
 
             if (!getFunds) {
-                const err = new Error('Empty Funds')
+                const err = new Error('No Funds for Funding')
+                err.statusCode = 422
+                throw err
+            }
+            if (!pendingDeposit) {
+                const err = new Error('No pending deposit')
+                err.statusCode = 422
+                throw err
+            }
+            if (!pendingWithdrawal) {
+                const err = new Error('No pending withdrawal')
                 err.statusCode = 422
                 throw err
             }
