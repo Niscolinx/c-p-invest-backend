@@ -96,7 +96,7 @@ module.exports = buildSchema(`
     input PostWithdrawNowData {
         amount: String
         currency: String!
-        
+        password: String
     }
 
     input PostId {
@@ -111,6 +111,7 @@ module.exports = buildSchema(`
         createUpdateProfile(updateProfileData: PostProfileData): ProfileData!
         createFundAccountApproval(PostId: PostId): FundAccount!
         createInvestNowApproval(PostId: PostId): FundAccount!
+        createWithdrawNowApproval(PostId: PostId): FundAccount!
         updatePost(id: ID!, postData: PostFundData): FundAccount!
         deletePost(id: ID!): Boolean
         updateStatus(status: String!): User!
