@@ -7,6 +7,11 @@ const pendingWithdrawal = new Schema(
             type: Number,
             required: true,
         },
+        status: {
+            type: String,
+            required: true,
+            default: 'Pending',
+        },
         currency: {
             type: String,
             required: true,
