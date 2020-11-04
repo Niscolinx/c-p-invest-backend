@@ -137,6 +137,10 @@ module.exports = buildSchema(`
         getPendingDeposit: [FundAccount!]!
         thePendingWithdrawal: [getFundsData!]!
         getPendingWithdrawal: [FundAccount!]!
+        getAllUsersDeposit: [FundAccount!]!
+        getAllUsersWithdrawal: [FundAccount!]!
+        theAllUsersDeposit: [getFundsData!]!
+        theAllUsersWithdrawal: [getFundsData!]!
         getFund: [FundAccount!]!
 
     }
