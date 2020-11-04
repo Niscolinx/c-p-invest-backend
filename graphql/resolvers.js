@@ -764,191 +764,191 @@ module.exports = {
             }
         }
     },
-    updatePost: async function ({ id, postData }, req) {
-        const error = []
+    // updatePost: async function ({ id, postData }, req) {
+    //     const error = []
 
-        if (
-            !validator.isLength(postData.title, { min: 5 }) ||
-            validator.isEmpty(postData.title)
-        ) {
-            error.push({
-                message: 'title must be at least 5 characters long',
-            })
-        }
-        if (
-            !validator.isLength(postData.content, { min: 5 }) ||
-            validator.isEmpty(postData.content)
-        ) {
-            error.push({
-                message: 'Content must be at least 5 characters long',
-            })
-        }
+    //     if (
+    //         !validator.isLength(postData.title, { min: 5 }) ||
+    //         validator.isEmpty(postData.title)
+    //     ) {
+    //         error.push({
+    //             message: 'title must be at least 5 characters long',
+    //         })
+    //     }
+    //     if (
+    //         !validator.isLength(postData.content, { min: 5 }) ||
+    //         validator.isEmpty(postData.content)
+    //     ) {
+    //         error.push({
+    //             message: 'Content must be at least 5 characters long',
+    //         })
+    //     }
 
-        if (error.length > 0) {
-            const err = new Error('Invalid post data')
-            err.statusCode = 422
-            err.data = error
-            throw err
-        }
+    //     if (error.length > 0) {
+    //         const err = new Error('Invalid post data')
+    //         err.statusCode = 422
+    //         err.data = error
+    //         throw err
+    //     }
 
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
 
-        const post = await Post.findById(id).populate('creator')
+    //     const post = await Post.findById(id).populate('creator')
 
-        if (!post) {
-            const error = new Error('Post was not found!')
-            error.statusCode = 404
-            throw error
-        }
+    //     if (!post) {
+    //         const error = new Error('Post was not found!')
+    //         error.statusCode = 404
+    //         throw error
+    //     }
 
-        if (post.creator._id.toString() !== req.userId.toString()) {
-            const error = new Error('Not authorized!')
-            error.statusCode = 403
-            throw error
-        }
+    //     if (post.creator._id.toString() !== req.userId.toString()) {
+    //         const error = new Error('Not authorized!')
+    //         error.statusCode = 403
+    //         throw error
+    //     }
 
-        post.title = postData.title
-        post.content = postData.content
-        if (postData.imageUrl !== 'undefined') {
-            post.imageUrl = postData.imageUrl
-        }
+    //     post.title = postData.title
+    //     post.content = postData.content
+    //     if (postData.imageUrl !== 'undefined') {
+    //         post.imageUrl = postData.imageUrl
+    //     }
 
-        const updatedPost = await post.save()
+    //     const updatedPost = await post.save()
 
-        return {
-            ...updatedPost._doc,
-            _id: updatedPost._id.toString(),
-            createdAt: updatedPost.createdAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-            updatedAt: updatedPost.updatedAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-        }
-    },
+    //     return {
+    //         ...updatedPost._doc,
+    //         _id: updatedPost._id.toString(),
+    //         createdAt: updatedPost.createdAt.toLocaleString('en-GB', {
+    //             hour12: true,
+    //         }),
+    //         updatedAt: updatedPost.updatedAt.toLocaleString('en-GB', {
+    //             hour12: true,
+    //         }),
+    //     }
+    // },
 
-    deletePost: async function ({ id }, req) {
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
+    // deletePost: async function ({ id }, req) {
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
 
-        const postToDelete = await Post.findById(id).populate('creator')
+    //     const postToDelete = await Post.findById(id).populate('creator')
 
-        if (!postToDelete) {
-            const error = new Error('Post not found!')
-            error.statusCode = 404
-            throw error
-        }
+    //     if (!postToDelete) {
+    //         const error = new Error('Post not found!')
+    //         error.statusCode = 404
+    //         throw error
+    //     }
 
-        if (postToDelete.creator._id.toString() !== req.userId.toString()) {
-            const error = new Error('Not authorized')
-            error.statusCode = 403
-            throw error
-        }
-        let imageUrl
-        if (postToDelete.imageUrl) {
-            imageUrl = postToDelete.imageUrl
-        }
-        const deletedPost = await Post.findOneAndDelete(id)
+    //     if (postToDelete.creator._id.toString() !== req.userId.toString()) {
+    //         const error = new Error('Not authorized')
+    //         error.statusCode = 403
+    //         throw error
+    //     }
+    //     let imageUrl
+    //     if (postToDelete.imageUrl) {
+    //         imageUrl = postToDelete.imageUrl
+    //     }
+    //     const deletedPost = await Post.findOneAndDelete(id)
 
-        if (imageUrl) {
-            fileDelete.deleteFile(imageUrl)
-        }
+    //     if (imageUrl) {
+    //         fileDelete.deleteFile(imageUrl)
+    //     }
 
-        const userOfDeletedPost = await User.findById(deletedPost.creator)
+    //     const userOfDeletedPost = await User.findById(deletedPost.creator)
 
-        userOfDeletedPost.posts.pull(deletedPost._id)
+    //     userOfDeletedPost.posts.pull(deletedPost._id)
 
-        userOfDeletedPost.save()
+    //     userOfDeletedPost.save()
 
-        return true
-    },
+    //     return true
+    // },
 
-    getPosts: async function ({ page }, req) {
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
+    // getPosts: async function ({ page }, req) {
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
 
-        if (!page) {
-            page = 1
-        }
+    //     if (!page) {
+    //         page = 1
+    //     }
 
-        const perPage = 2
-        const totalPosts = await Post.find().countDocuments()
-        const posts = await Post.find()
-            .sort({ createdAt: -1 })
-            .skip((page - 1) * perPage)
-            .limit(perPage)
-            .populate('creator')
+    //     const perPage = 2
+    //     const totalPosts = await Post.find().countDocuments()
+    //     const posts = await Post.find()
+    //         .sort({ createdAt: -1 })
+    //         .skip((page - 1) * perPage)
+    //         .limit(perPage)
+    //         .populate('creator')
 
-        const lastPage = perPage
+    //     const lastPage = perPage
 
-        return {
-            Post: posts.map((p) => {
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    status: p.creator.status,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
-            }),
-            totalPosts,
-            lastPage,
-        }
-    },
+    //     return {
+    //         Post: posts.map((p) => {
+    //             return {
+    //                 ...p._doc,
+    //                 _id: p._id.toString(),
+    //                 status: p.creator.status,
+    //                 createdAt: p.createdAt.toLocaleString('en-GB', {
+    //                     hour12: true,
+    //                 }),
+    //                 updatedAt: p.updatedAt.toLocaleString('en-GB', {
+    //                     hour12: true,
+    //                 }),
+    //             }
+    //         }),
+    //         totalPosts,
+    //         lastPage,
+    //     }
+    // },
 
-    post: async function ({ id }, req) {
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
+    // post: async function ({ id }, req) {
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
 
-        const post = await Post.findById(id).populate('creator')
+    //     const post = await Post.findById(id).populate('creator')
 
-        if (!post) {
-            const error = new Error('post not found!')
-            error.statusCode = 404
-            throw error
-        }
+    //     if (!post) {
+    //         const error = new Error('post not found!')
+    //         error.statusCode = 404
+    //         throw error
+    //     }
 
-        return {
-            ...post._doc,
-            createdAt: post.createdAt.toLocaleString('en-GB', { hour12: true }),
-            updatedAt: post.updatedAt.toLocaleString('en-GB', { hour12: true }),
-        }
-    },
+    //     return {
+    //         ...post._doc,
+    //         createdAt: post.createdAt.toLocaleString('en-GB', { hour12: true }),
+    //         updatedAt: post.updatedAt.toLocaleString('en-GB', { hour12: true }),
+    //     }
+    // },
 
-    updateStatus: async function ({ status }, req) {
-        console.log('Reached the update status')
-        if (!req.Auth) {
-            const err = new Error('Not authenticated')
-            err.statusCode = 403
-            throw err
-        }
-        const user = await User.findById(req.userId)
+    // updateStatus: async function ({ status }, req) {
+    //     console.log('Reached the update status')
+    //     if (!req.Auth) {
+    //         const err = new Error('Not authenticated')
+    //         err.statusCode = 403
+    //         throw err
+    //     }
+    //     const user = await User.findById(req.userId)
 
-        user.status = status
-        const updatedUser = await user.save()
+    //     user.status = status
+    //     const updatedUser = await user.save()
 
-        return {
-            ...updatedUser._doc,
-            _id: updatedUser._id.toString(),
-        }
-    },
+    //     return {
+    //         ...updatedUser._doc,
+    //         _id: updatedUser._id.toString(),
+    //     }
+    // },
 
     //Profile
 
