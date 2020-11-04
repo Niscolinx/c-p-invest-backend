@@ -270,7 +270,7 @@ module.exports = {
         }
     },
 
-    createWithdrawNow: async function ({withdrawNowData} , req) {
+    createWithdrawNow: async function ({ withdrawNowData }, req) {
         console.log('create WithdrawNow account', withdrawNowData, req.userId)
 
         if (!req.Auth) {
@@ -288,9 +288,10 @@ module.exports = {
             err.statusCode = 422
             throw err
         }
-        const checkPassword = await bcrypt.compare(withdrawNowData.password, user.password)
-
-        console.log('check password', checkPassword)
+        const checkPassword = await bcrypt.compare(
+            withdrawNowData.password,
+            user.password
+        )
 
         if (!checkPassword) {
             const err = new Error('Wrong Password')
@@ -308,19 +309,18 @@ module.exports = {
             const savePendingWithdrawNow = await PendingWithdrawalNow.save()
             console.log('saveAccount', savePendingWithdrawNow)
 
-            user.pendingWithdrawals.push(savePendingWithdrawNow)
+            user.pendingWithdrawal.push(savePendingWithdrawNow)
 
-            const userPendingWithdraw = await user.save()
+            await user.save()
 
-            console.log('the user Withdraw update', userPendingWithdraw)
 
             return {
-                ...saveWithdrawNow._doc,
-                _id: saveWithdrawNow._id.toString(),
-                createdAt: saveWithdrawNow.createdAt.toLocaleString('en-GB', {
+                ...savePendingWithdrawNow._doc,
+                _id: savePendingWithdrawNow._id.toString(),
+                createdAt: savePendingWithdrawNow.createdAt.toLocaleString('en-GB', {
                     hour12: true,
                 }),
-                updatedAt: saveWithdrawNow.updatedAt.toLocaleString('en-GB', {
+                updatedAt: savePendingWithdrawNow.updatedAt.toLocaleString('en-GB', {
                     hour12: true,
                 }),
             }
@@ -441,72 +441,71 @@ module.exports = {
             throw err
         }
 
-        try{
+        try {
             const getFunds = await FundAccount.find().populate('creator')
-            
-            const pendingDeposit = await PendingDeposit.find().populate('creator')
-            
 
-        if (!getFunds) {
-            const err = new Error('Empty Funds')
-            err.statusCode = 422
-            throw err
+            const pendingDeposit = await PendingDeposit.find().populate(
+                'creator'
+            )
+
+            if (!getFunds) {
+                const err = new Error('Empty Funds')
+                err.statusCode = 422
+                throw err
+            }
+            let theCreator = []
+            let thePendingDeposit = []
+
+            return {
+                getFund: getFunds.map((p, i) => {
+                    theCreator.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        proofUrl: p._doc.proofUrl,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getPendingDeposit: pendingDeposit.map((p, i) => {
+                    thePendingDeposit.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        proofUrl: p._doc.proofUrl,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                fundData: theCreator,
+                thePendingDeposit,
+            }
+        } catch (err) {
+            console.log(err)
         }
-        let theCreator = []
-        let thePendingDeposit = []
-
-
-        return {
-            getFund: getFunds.map((p, i) => {
-                theCreator.push({
-                    _id: p._id.toString(),
-                    creator: p.creator.username,
-                    status: p._doc.status,
-                    amount: p._doc.amount,
-                    currency: p._doc.currency,
-                    proofUrl: p._doc.proofUrl,
-                    fundNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                })
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                }
-            }),
-            getPendingDeposit: pendingDeposit.map((p, i) => {
-                thePendingDeposit.push({
-                    _id: p._id.toString(),
-                    creator: p.creator.username,
-                    status: p._doc.status,
-                    planName: p._doc.planName,
-                    amount: p._doc.amount,
-                    currency: p._doc.currency,
-                    proofUrl: p._doc.proofUrl,
-                    fundNO: i + 1,
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                })
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                }
-            }),
-            fundData: theCreator,
-            thePendingDeposit,
-        }
-    }
-    catch(err){
-        console.log(err)
-    }
     },
     createWithdrawNowApproval: async function ({ PostId }, req) {
         console.log('withdraw now approval', PostId)
@@ -518,9 +517,9 @@ module.exports = {
             throw err
         }
 
-        const pendingWithdrawal = await pendingWithdrawal.findById(id).populate(
-            'creator'
-        )
+        const pendingWithdrawal = await pendingWithdrawal
+            .findById(id)
+            .populate('creator')
 
         console.log('approval auth', pendingWithdrawal)
         if (!pendingWithdrawal) {
