@@ -379,6 +379,9 @@ module.exports = {
         }
 
         const getFunds = await FundAccount.find().populate('creator')
+        const pendingDeposit = await PendingDeposit.find().populate('creator')
+
+        console.log('the pending deposits', pendingDeposit)
 
         if (!getFunds) {
             const err = new Error('Empty Funds')
@@ -386,6 +389,7 @@ module.exports = {
             throw err
         }
         let theCreator = []
+        let thePendingDeposit = []
 
         return {
             getFund: getFunds.map((p, i) => {
@@ -409,7 +413,30 @@ module.exports = {
                     _id: p._id.toString(),
                 }
             }),
+            getPendingDeposit: pendingDeposit.map((p, i) => {
+                thePendingDeposit.push({
+                    _id: p._id.toString(),
+                    creator: p.creator.username,
+                    status: p._doc.status,
+                    planName: p._doc.planName,
+                    amount: p._doc.amount,
+                    currency: p._doc.currency,
+                    proofUrl: p._doc.proofUrl,
+                    fundNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                })
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                }
+            }),
             fundData: theCreator,
+            thePendingDeposit
         }
     },
     createFundAccountApproval: async function ({ PostId }, req) {

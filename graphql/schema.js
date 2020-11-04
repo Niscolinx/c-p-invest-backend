@@ -114,6 +114,7 @@ module.exports = buildSchema(`
         amount: Int
         proofUrl: String
         currency: String
+        planName: String
         creator: String
         fundNO: Int
         createdAt: String
@@ -126,6 +127,8 @@ module.exports = buildSchema(`
     }
     type getFundData {
         fundData: [getFundsData!]!   
+        thePendingDeposit: [getFundsData!]!
+        getPendingDeposit: [FundAccount!]!
          getFund: [FundAccount!]!
 
     }
