@@ -439,6 +439,64 @@ module.exports = {
             thePendingDeposit
         }
     },
+    createInvestNowApproval: async function ({ PostId }, req) {
+        console.log('invest now approval', PostId)
+        let id = mongoose.Types.ObjectId(PostId.id)
+
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+
+        const pendingDeposit = await PendingDeposit.findById(id).populate('creator')
+
+        console.log('approval auth', pendingDeposit)
+        if (!pendingDeposit) {
+            const error = new Error('Funds not found!')
+            error.statusCode = 404
+            throw error
+        }
+
+        //Delete Picture
+        // post.title = postData.title
+        // post.content = postData.content
+        // if (postData.imageUrl !== 'undefined') {
+        //     post.imageUrl = postData.imageUrl
+        // }
+
+        pendingDeposit.status = 'Approved'
+
+        const updatedpendingDeposit = await pendingDeposit.save()
+
+        if (updatedpendingDeposit) {
+            const user = await User.findById(pendingDeposit.creator._id)
+
+            let oldAccountBalance = user.accountBalance
+
+            user.accountBalance = oldAccountBalance - updatedpendingDeposit.amount
+
+            await user.save()
+        }
+
+        const deposit = new Deposit({
+            amount: pendingDeposit.amount,
+            currency: pendingDeposit.currency,
+            proofUrl: pendingDeposit.proofUrl,
+            creator: user,
+        })
+
+        return {
+            ...updatedFundAccount._doc,
+            _id: updatedFundAccount._id.toString(),
+            createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
+            updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
+                hour12: true,
+            }),
+        }
+    },
     createFundAccountApproval: async function ({ PostId }, req) {
         let id = mongoose.Types.ObjectId(PostId.id)
 
