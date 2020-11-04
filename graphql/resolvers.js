@@ -467,7 +467,15 @@ module.exports = {
         //     post.imageUrl = postData.imageUrl
         // }
 
-        pendingDeposit.status = 'Approved'
+        const oldStatus = pendingDeposit.status
+
+        if (oldStatus !== 'Approved') {
+            pendingDeposit.status = 'Approved'
+        } else {
+            const error = new Error('Deposit already approved')
+            error.statusCode = 404
+            throw error
+        }
 
         const updatedpendingDeposit = await pendingDeposit.save()
 
@@ -535,8 +543,15 @@ module.exports = {
         // if (postData.imageUrl !== 'undefined') {
         //     post.imageUrl = postData.imageUrl
         // }
+        const oldStatus = fundAccount.status
 
-        fundAccount.status = 'Approved'
+        if (oldStatus !== 'Approved') {
+            fundAccount.status = 'Approved'
+        } else {
+            const error = new Error('Deposit already approved')
+            error.statusCode = 404
+            throw error
+        }
 
         const updatedFundAccount = await fundAccount.save()
 
@@ -548,17 +563,23 @@ module.exports = {
             user.accountBalance = oldAccountBalance + updatedFundAccount.amount
 
             await user.save()
-        }
-
-        return {
-            ...updatedFundAccount._doc,
-            _id: updatedFundAccount._id.toString(),
-            createdAt: updatedFundAccount.createdAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-            updatedAt: updatedFundAccount.updatedAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
+            
+            return {
+                ...updatedFundAccount._doc,
+                _id: updatedFundAccount._id.toString(),
+                createdAt: updatedFundAccount.createdAt.toLocaleString(
+                    'en-GB',
+                    {
+                        hour12: true,
+                    }
+                ),
+                updatedAt: updatedFundAccount.updatedAt.toLocaleString(
+                    'en-GB',
+                    {
+                        hour12: true,
+                    }
+                ),
+            }
         }
     },
     updatePost: async function ({ id, postData }, req) {
