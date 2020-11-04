@@ -291,7 +291,7 @@ module.exports = {
 
         try {
             return {
-                getUserDepositHistory: deposit.map((p, i) => {
+                getDepositHistory: deposit.map((p, i) => {
                     return {
                         ...p._doc,
                         _id: p._id.toString(),
@@ -304,7 +304,7 @@ module.exports = {
                         }),
                     }
                 }),
-                getUserWithdrawalHistory: withdrawal.map((p, i) => {
+                getWithdrawalHistory: withdrawal.map((p, i) => {
                     return {
                         ...p._doc,
                         _id: p._id.toString(),
