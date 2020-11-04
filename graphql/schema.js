@@ -137,7 +137,9 @@ module.exports = buildSchema(`
         fundData: [getFundsData!]!   
         thePendingDeposit: [getFundsData!]!
         getPendingDeposit: [FundAccount!]!
-         getFund: [FundAccount!]!
+        thePendingWithdrawal: [getFundsData!]!
+        getPendingWithdrawal: [FundAccount!]!
+        getFund: [FundAccount!]!
 
     }
     type getUsersData {
