@@ -11,6 +11,7 @@ module.exports = buildSchema(`
         planName: String
         status: String
         fundNO: Int
+        historyNO: Int
         createdAt: String!
         updatedAt: String!
     }
@@ -147,8 +148,8 @@ module.exports = buildSchema(`
     }
     
     type getUserHistoryData {
-        getDepositHistory: [User!]!
-        getWithdrawalHistory: [User!]!
+        getDepositHistory: [FundAccount!]!
+        getWithdrawalHistory: [FundAccount!]!
     }
 
     type getUserData {
