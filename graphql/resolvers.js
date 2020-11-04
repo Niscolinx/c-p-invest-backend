@@ -269,6 +269,49 @@ module.exports = {
             }),
         }
     },
+    getUserHistory: async function (arg, req) {
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+        const getUsers = await User.find({ role: 'Customer' })
+
+        if (!getUsers) {
+            const error = new Error('No Users')
+            error.statusCode = 404
+            throw error
+        }
+
+        return {
+            getUserDepositHistory: getUsers.map((p, i) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    userNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                }
+            }),
+            getUserWithdrawalHistory: getUsers.map((p, i) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    userNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                }
+            }),
+        }
+    },
 
     createWithdrawNow: async function ({ withdrawNowData }, req) {
         console.log('create WithdrawNow account', withdrawNowData, req.userId)
