@@ -142,7 +142,7 @@ module.exports = {
         const token = jwt.sign(
             { email: userExits.email, userId: userExits._id.toString() },
             'supersecretkey',
-            { expiresIn: '2hr' }
+            { expiresIn: '3hr' }
         )
 
         // const mailSent = await mailTransport.sendMail({
@@ -270,8 +270,8 @@ module.exports = {
         }
     },
 
-    createInvestNow: async function ({ investNowData }, req) {
-        console.log('create investNow account', investNowData, req.userId)
+    createWithdrawNow: async function ({ WithdrawNowData }, req) {
+        console.log('create WithdrawNow account', WithdrawNowData, req.userId)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -288,33 +288,40 @@ module.exports = {
             err.statusCode = 422
             throw err
         }
+        const checkPassword = await bcrypt.compare(WithdrawNowData.password, user.password)
+
+        console.log('check password', checkPassword)
+
+        if (!checkPassword) {
+            const err = new Error('Wrong Password')
+            err.statusCode = 422
+            throw err
+        }
 
         try {
-            const investNow = new PendingDeposit({
-                amount: investNowData.amount,
-                planName: investNowData.selectedPlan,
-                currency: investNowData.currency,
-                proofUrl: investNowData.proofUrl,
+            const PendingWithdrawalNow = new PendingWithdrawal({
+                amount: WithdrawNowData.amount,
+                currency: WithdrawNowData.currency,
                 creator: user,
             })
 
-            await investNow.save()
-            const saveInvestNow = await investNow.save()
-            console.log('saveAccount', saveInvestNow)
+            await PendingWithdrawalNow.save()
+            const saveWithdrawNow = await WithdrawNow.save()
+            console.log('saveAccount', saveWithdrawNow)
 
-            user.pendingDeposits.push(saveInvestNow)
+            user.pendingDeposits.push(saveWithdrawNow)
 
-            const userPendingInvest = await user.save()
+            const userPendingWithdraw = await user.save()
 
-            console.log('the user invest update', userPendingInvest)
+            console.log('the user Withdraw update', userPendingWithdraw)
 
             return {
-                ...saveInvestNow._doc,
-                _id: saveInvestNow._id.toString(),
-                createdAt: saveInvestNow.createdAt.toLocaleString('en-GB', {
+                ...saveWithdrawNow._doc,
+                _id: saveWithdrawNow._id.toString(),
+                createdAt: saveWithdrawNow.createdAt.toLocaleString('en-GB', {
                     hour12: true,
                 }),
-                updatedAt: saveInvestNow.updatedAt.toLocaleString('en-GB', {
+                updatedAt: saveWithdrawNow.updatedAt.toLocaleString('en-GB', {
                     hour12: true,
                 }),
             }
@@ -352,7 +359,6 @@ module.exports = {
                 creator: user,
             })
 
-            await investNow.save()
             const saveInvestNow = await investNow.save()
             console.log('saveAccount', saveInvestNow)
 
@@ -698,7 +704,7 @@ module.exports = {
             user.accountBalance = oldAccountBalance + updatedFundAccount.amount
 
             await user.save()
-            
+
             return {
                 ...updatedFundAccount._doc,
                 _id: updatedFundAccount._id.toString(),
