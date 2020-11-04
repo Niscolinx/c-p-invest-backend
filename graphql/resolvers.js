@@ -442,7 +442,9 @@ module.exports = {
         }
 
         try{
-        const getFunds = await FundAccount.find().populate('creator')
+            const getFunds = await FundAccount.find().populate('creator')
+            console.log('pendingDeposits', getFunds)
+
         const pendingDeposit = await PendingDeposit.find().populate('creator')
 
 
@@ -454,7 +456,6 @@ module.exports = {
         let theCreator = []
         let thePendingDeposit = []
 
-        console.log('pendingDeposits', thePendingDeposit)
 
         return {
             getFund: getFunds.map((p, i) => {
