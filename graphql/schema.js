@@ -86,12 +86,10 @@ module.exports = buildSchema(`
     input PostFundData {
         amount: String
         currency: String!
-        proofUrl: String!
     }
     input PostInvestNowData {
         amount: String
         currency: String!
-        proofUrl: String!
         selectedPlan: String!
     }
     input PostWithdrawNowData {
