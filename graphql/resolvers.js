@@ -227,7 +227,7 @@ module.exports = {
             return {
                 user: theUser,
                 userFundAccount,
-                userPendingDeposit
+                userPendingDeposit,
                 // userTotalDeposits: user._doc.totalDeposits,
                 // userTotalWithdrawals: user._doc.totalWithdrawals,
                 // userAccountBalance: user._doc.lastWithdrawal,
@@ -436,7 +436,7 @@ module.exports = {
                 }
             }),
             fundData: theCreator,
-            thePendingDeposit
+            thePendingDeposit,
         }
     },
     createInvestNowApproval: async function ({ PostId }, req) {
@@ -449,7 +449,9 @@ module.exports = {
             throw err
         }
 
-        const pendingDeposit = await PendingDeposit.findById(id).populate('creator')
+        const pendingDeposit = await PendingDeposit.findById(id).populate(
+            'creator'
+        )
 
         console.log('approval auth', pendingDeposit)
         if (!pendingDeposit) {
@@ -476,37 +478,37 @@ module.exports = {
 
             let oldAccountBalance = user.accountBalance
 
-            user.accountBalance = oldAccountBalance - updatedpendingDeposit.amount
+            user.accountBalance =
+                oldAccountBalance - updatedpendingDeposit.amount
 
             await user.save()
+
+            try {
+                const deposit = new Deposit({
+                    amount: pendingDeposit.amount,
+                    currency: pendingDeposit.currency,
+                    planName: pendingDeposit.planName,
+                    creator: user,
+                })
+
+                const newDeposit = await deposit.save()
+
+                console.log('the new deposit', newDeposit)
+
+                return {
+                    ...newDeposit._doc,
+                    _id: newDeposit._id.toString(),
+                    createdAt: newDeposit.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: newDeposit.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                }
+            } catch (err) {
+                console.log(err)
+            }
         }
-
-        try{
-        const deposit = new Deposit({
-            amount: pendingDeposit.amount,
-            currency: pendingDeposit.currency,
-            planName: pendingDeposit.planName,
-            creator: user,
-        })
-
-        const newDeposit = await deposit.save()
-
-        console.log('the new deposit', newDeposit)
-
-        return {
-            ...newDeposit._doc,
-            _id: newDeposit._id.toString(),
-            createdAt: newDeposit.createdAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-            updatedAt: newDeposit.updatedAt.toLocaleString('en-GB', {
-                hour12: true,
-            }),
-        }
-    }
-    catch(err){
-        console.log(err)
-    }
     },
     createFundAccountApproval: async function ({ PostId }, req) {
         let id = mongoose.Types.ObjectId(PostId.id)
