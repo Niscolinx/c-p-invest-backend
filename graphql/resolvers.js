@@ -432,7 +432,9 @@ module.exports = {
             throw new Error(err)
         }
     },
+
     getFunds: async function (arg, req) {
+        console.log('the get Funds')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -442,7 +444,6 @@ module.exports = {
         const getFunds = await FundAccount.find().populate('creator')
         const pendingDeposit = await PendingDeposit.find().populate('creator')
 
-        console.log('the pending deposits', pendingDeposit)
 
         if (!getFunds) {
             const err = new Error('Empty Funds')
