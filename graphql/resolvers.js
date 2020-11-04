@@ -553,11 +553,10 @@ module.exports = {
             throw err
         }
 
-        const pendingWithdrawal = await pendingWithdrawal
+        const pendingWithdrawal = await PendingWithdrawal
             .findById(id)
             .populate('creator')
 
-        console.log('approval auth', pendingWithdrawal)
         if (!pendingWithdrawal) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
