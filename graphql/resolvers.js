@@ -505,7 +505,7 @@ module.exports = {
             const pendingWithdrawal = await PendingWithdrawal.find().populate(
                 'creator'
             )
-            const allUsersDeposits = await Deposit.find().populate(
+            const allUsersDeposit = await Deposit.find().populate(
                 'creator'
             )
             const allUsersWithdrawal = await Withdrawal.find().populate(
@@ -527,19 +527,21 @@ module.exports = {
                 err.statusCode = 422
                 throw err
             }
-            if (!pendingWithdrawal) {
-                const err = new Error('No pending withdrawal')
+            if (!allUsersDeposit) {
+                const err = new Error('No Users deposit')
                 err.statusCode = 422
                 throw err
             }
-            if (!pendingWithdrawal) {
-                const err = new Error('No pending withdrawal')
+            if (!allUsersWithdrawal) {
+                const err = new Error('No Users withdrawal')
                 err.statusCode = 422
                 throw err
             }
             const theCreator = []
             const thePendingDeposit = []
             const thePendingWithdrawal = []
+            const theAllUsersDeposit = []
+            const theAllUsersWithdrawal = []
 
             return {
                 getFund: getFunds.map((p, i) => {
@@ -564,6 +566,48 @@ module.exports = {
                 }),
                 getPendingDeposit: pendingDeposit.map((p, i) => {
                     thePendingDeposit.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
+                    thePendingWithdrawal.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
+                    thePendingWithdrawal.push({
                         _id: p._id.toString(),
                         creator: p.creator.username,
                         status: p._doc.status,
