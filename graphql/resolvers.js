@@ -270,7 +270,7 @@ module.exports = {
         }
     },
 
-    createWithdrawNow: async function ({ WithdrawNowData }, req) {
+    createWithdrawNow: async function (WithdrawNowData , req) {
         console.log('create WithdrawNow account', WithdrawNowData, req.userId)
 
         if (!req.Auth) {
