@@ -481,6 +481,7 @@ module.exports = {
             await user.save()
         }
 
+        try{
         const deposit = new Deposit({
             amount: pendingDeposit.amount,
             currency: pendingDeposit.currency,
@@ -502,6 +503,10 @@ module.exports = {
                 hour12: true,
             }),
         }
+    }
+    catch(err){
+        console.log(err)
+    }
     },
     createFundAccountApproval: async function ({ PostId }, req) {
         let id = mongoose.Types.ObjectId(PostId.id)
