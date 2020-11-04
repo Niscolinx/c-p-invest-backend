@@ -270,8 +270,8 @@ module.exports = {
         }
     },
 
-    createWithdrawNow: async function ({WithdrawNowData} , req) {
-        console.log('create WithdrawNow account', WithdrawNowData, req.userId)
+    createWithdrawNow: async function ({withdrawNowData} , req) {
+        console.log('create WithdrawNow account', withdrawNowData, req.userId)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -288,7 +288,7 @@ module.exports = {
             err.statusCode = 422
             throw err
         }
-        const checkPassword = await bcrypt.compare(WithdrawNowData.password, user.password)
+        const checkPassword = await bcrypt.compare(withdrawNowData.password, user.password)
 
         console.log('check password', checkPassword)
 
@@ -300,8 +300,8 @@ module.exports = {
 
         try {
             const PendingWithdrawalNow = new PendingWithdrawal({
-                amount: WithdrawNowData.amount,
-                currency: WithdrawNowData.currency,
+                amount: withdrawNowData.amount,
+                currency: withdrawNowData.currency,
                 creator: user,
             })
 
