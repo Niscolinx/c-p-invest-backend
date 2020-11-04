@@ -6,7 +6,6 @@ module.exports = buildSchema(`
         _id: ID!
         amount: Int!
         currency: String!
-        proofUrl: String
         creator: User!
         planName: String
         status: String
@@ -120,7 +119,6 @@ module.exports = buildSchema(`
     type getFundsData {
         status: String
         amount: Int
-        proofUrl: String
         currency: String
         planName: String
         creator: String

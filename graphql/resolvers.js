@@ -193,7 +193,6 @@ module.exports = {
                     status: p.status,
                     amount: p.amount,
                     currency: p.currency,
-                    proofUrl: p.proofUrl,
                     createdAt: p.createdAt.toLocaleString('en-GB', {
                         hour12: true,
                     }),
@@ -211,7 +210,6 @@ module.exports = {
                     amount: p.amount,
                     fundNO: i + 1,
                     currency: p.currency,
-                    proofUrl: p.proofUrl,
                     createdAt: p.createdAt.toLocaleString('en-GB', {
                         hour12: true,
                     }),
@@ -412,7 +410,6 @@ module.exports = {
                 amount: investNowData.amount,
                 planName: investNowData.selectedPlan,
                 currency: investNowData.currency,
-                proofUrl: investNowData.proofUrl,
                 creator: user,
             })
 
@@ -463,7 +460,6 @@ module.exports = {
             const fundAccount = new FundAccount({
                 amount: fundData.amount,
                 currency: fundData.currency,
-                proofUrl: fundData.proofUrl,
                 creator: user,
             })
 
@@ -537,7 +533,6 @@ module.exports = {
                         status: p._doc.status,
                         amount: p._doc.amount,
                         currency: p._doc.currency,
-                        proofUrl: p._doc.proofUrl,
                         fundNO: i + 1,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
@@ -559,7 +554,6 @@ module.exports = {
                         planName: p._doc.planName,
                         amount: p._doc.amount,
                         currency: p._doc.currency,
-                        proofUrl: p._doc.proofUrl,
                         fundNO: i + 1,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
@@ -581,7 +575,6 @@ module.exports = {
                         planName: p._doc.planName,
                         amount: p._doc.amount,
                         currency: p._doc.currency,
-                        proofUrl: p._doc.proofUrl,
                         fundNO: i + 1,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,

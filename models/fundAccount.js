@@ -7,10 +7,6 @@ const fundAccountSchema = new Schema(
       type: Number,
       required: true
     },
-    proofUrl: {
-      type: String,
-      required: true
-    },
     status: {
       type: String,
       required: true,
