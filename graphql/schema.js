@@ -31,6 +31,7 @@ module.exports = buildSchema(`
         country: String
         role: String!
         userNO: Int
+        HistoryNO: Int
         status: String!
         createdAt: String!
         updatedAt: String!
@@ -146,6 +147,12 @@ module.exports = buildSchema(`
         getUser: [User!]! 
         userFundAccount: [FundAccount!]!    
     }
+    
+    type getUserHistoryData {
+        getDepositHistory: [User!]!
+        getWithdrawalHistory: [User!]!
+    }
+
     type getUserData {
         user: User!
         userFundAccount: [FundAccount!]!    
@@ -159,6 +166,7 @@ module.exports = buildSchema(`
         post(id: ID!): FundAccount!
         getUser: getUserData!
         getUsers: getUsersData!
+        getUserHistory: getUserHistoryData!
     }
 
     schema {
