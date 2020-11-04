@@ -606,11 +606,10 @@ module.exports = {
                         _id: p._id.toString(),
                     }
                 }),
-                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
-                    thePendingWithdrawal.push({
+                getAllUsersDeposit: allUsersDeposit.map((p, i) => {
+                    theAllUsersDeposit.push({
                         _id: p._id.toString(),
                         creator: p.creator.username,
-                        status: p._doc.status,
                         planName: p._doc.planName,
                         amount: p._doc.amount,
                         currency: p._doc.currency,
@@ -627,12 +626,10 @@ module.exports = {
                         _id: p._id.toString(),
                     }
                 }),
-                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
-                    thePendingWithdrawal.push({
+                getAllUsersWithdrawal: allUsersWithdrawal.map((p, i) => {
+                    theAllUsersWithdrawal.push({
                         _id: p._id.toString(),
                         creator: p.creator.username,
-                        status: p._doc.status,
-                        planName: p._doc.planName,
                         amount: p._doc.amount,
                         currency: p._doc.currency,
                         fundNO: i + 1,
@@ -651,6 +648,8 @@ module.exports = {
                 fundData: theCreator,
                 thePendingDeposit,
                 thePendingWithdrawal,
+                theAllUsersDeposit,
+                theAllUsersWithdrawal
             }
         } catch (err) {
             console.log(err)
