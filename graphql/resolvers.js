@@ -443,10 +443,9 @@ module.exports = {
 
         try{
             const getFunds = await FundAccount.find().populate('creator')
-            console.log('pendingDeposits', getFunds)
-
-        const pendingDeposit = await PendingDeposit.find().populate('creator')
-
+            
+            const pendingDeposit = await PendingDeposit.find().populate('creator')
+            
 
         if (!getFunds) {
             const err = new Error('Empty Funds')
