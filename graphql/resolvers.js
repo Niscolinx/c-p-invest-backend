@@ -278,7 +278,8 @@ module.exports = {
         }
         const user = await User.findById(req.userId)
         const withdrawal = await Withdrawal.find({creator: req.userId})
-        console.log('the withdrawal', withdrawal)
+        const deposit = await Deposit.find({creator: req.userId})
+        console.log('the withdrawal', withdrawal, deposit)
 
         if (!user) {
             const error = new Error('User not found!')
@@ -290,11 +291,11 @@ module.exports = {
 
         try {
             return {
-                getUserDepositHistory: getUsers.map((p, i) => {
+                getUserDepositHistory: deposit.map((p, i) => {
                     return {
                         ...p._doc,
                         _id: p._id.toString(),
-                        userNO: i + 1,
+                        historyNO: i + 1,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
                         }),
@@ -303,11 +304,11 @@ module.exports = {
                         }),
                     }
                 }),
-                getUserWithdrawalHistory: getUsers.map((p, i) => {
+                getUserWithdrawalHistory: withdrawal.map((p, i) => {
                     return {
                         ...p._doc,
                         _id: p._id.toString(),
-                        userNO: i + 1,
+                        historyNO: i + 1,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
                         }),
