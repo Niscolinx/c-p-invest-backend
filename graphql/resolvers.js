@@ -296,7 +296,6 @@ module.exports = {
                         ...p._doc,
                         _id: p._id.toString(),
                         historyNO: i + 1,
-                        creator: p._doc.creator,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
                         }),
@@ -310,7 +309,6 @@ module.exports = {
                         ...p._doc,
                         _id: p._id.toString(),
                         historyNO: i + 1,
-                        creator: p._doc.creator,
                         createdAt: p.createdAt.toLocaleString('en-GB', {
                             hour12: true,
                         }),
