@@ -1,7 +1,7 @@
 import { Schema as _Schema, model } from 'mongoose'
 const Schema = _Schema
 
-const withdrawalSchema = new Schema(
+const pendingWithdrawal = new Schema(
     {
         amount: {
             type: Number,
@@ -20,4 +20,4 @@ const withdrawalSchema = new Schema(
     { timestamps: true }
 )
 
-module.exports = mongoose.model('withdraw', withdrawalSchema)
+module.exports = mongoose.model('pendingWithdrawal', pendingWithdrawal)

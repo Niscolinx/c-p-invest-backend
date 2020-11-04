@@ -72,6 +72,12 @@ const userSchema = new Schema(
                 ref: 'pendingDeposit',
             },
         ],
+        pendingWithdrawal: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'pendingWithdrawal',
+            },
+        ],
         totalDeposits: [
             {
                 type: Schema.Types.ObjectId,
@@ -81,7 +87,7 @@ const userSchema = new Schema(
         totalWithdrawals: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'withdrawal',
+                ref: 'withdraw',
             },
         ],
         totalEarnings: [
