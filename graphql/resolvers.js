@@ -469,6 +469,8 @@ module.exports = {
 
         const updatedpendingDeposit = await pendingDeposit.save()
 
+        console.log('the updated deposit', updatedpendingDeposit)
+
         if (updatedpendingDeposit) {
             const user = await User.findById(pendingDeposit.creator._id)
 
