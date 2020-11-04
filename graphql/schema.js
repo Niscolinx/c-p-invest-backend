@@ -31,7 +31,7 @@ module.exports = buildSchema(`
         country: String
         role: String!
         userNO: Int
-        HistoryNO: Int
+        historyNO: Int
         status: String!
         createdAt: String!
         updatedAt: String!
