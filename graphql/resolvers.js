@@ -488,6 +488,8 @@ module.exports = {
             creator: user,
         })
 
+        const newDeposit = await deposit.save()
+
         return {
             ...updatedFundAccount._doc,
             _id: updatedFundAccount._id.toString(),
