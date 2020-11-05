@@ -267,6 +267,36 @@ module.exports = {
             }),
         }
     },
+    getAdmin: async function (arg, req) {
+        if (!req.Auth) {
+            const err = new Error('Not authenticated')
+            err.statusCode = 403
+            throw err
+        }
+        const getAdmin = await User.find({ role: 'Admin' })
+
+        if (!getAdmin) {
+            const error = new Error('Admin not found')
+            error.statusCode = 404
+            throw error
+        }
+
+        return {
+            getUser: getAdmin.map((p, i) => {
+                return {
+                    ...p._doc,
+                    _id: p._id.toString(),
+                    userNO: i + 1,
+                    createdAt: p.createdAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                        hour12: true,
+                    }),
+                }
+            }),
+        }
+    },
     getUserHistory: async function (arg, req) {
         console.log('the deposit history')
         if (!req.Auth) {
