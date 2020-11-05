@@ -281,12 +281,12 @@ module.exports = {
         console.log('the admin', getAdmin)
 
         return {
-            ...p._doc,
-            _id: p._id.toString(),
-            createdAt: p.createdAt.toLocaleString('en-GB', {
+            ...getAdmin._doc,
+            _id: getAdmin._id.toString(),
+            createdAt: getAdmin.createdAt.toLocaleString('en-GB', {
                 hour12: true,
             }),
-            updatedAt: p.updatedAt.toLocaleString('en-GB', {
+            updatedAt: getAdmin.updatedAt.toLocaleString('en-GB', {
                 hour12: true,
             })
         }
