@@ -166,7 +166,7 @@ module.exports = buildSchema(`
         getPosts(page: Int): PostData!
         post(id: ID!): FundAccount!
         getUser: getUserData!
-        getAdmin: [User]
+        getAdmin: User
         getUsers: getUsersData!
         getUserHistory: getUserHistoryData!
     }

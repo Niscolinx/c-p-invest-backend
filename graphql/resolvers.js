@@ -281,18 +281,14 @@ module.exports = {
         console.log('the admin', getAdmin)
 
         return {
-            getAdmin: getAdmin.map((p, i) => {
-                return {
-                    ...p._doc,
-                    _id: p._id.toString(),
-                    createdAt: p.createdAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                    updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                        hour12: true,
-                    }),
-                }
+            ...p._doc,
+            _id: p._id.toString(),
+            createdAt: p.createdAt.toLocaleString('en-GB', {
+                hour12: true,
             }),
+            updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                hour12: true,
+            })
         }
     },
     getUserHistory: async function (arg, req) {
