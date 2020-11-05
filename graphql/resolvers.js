@@ -273,7 +273,7 @@ module.exports = {
             err.statusCode = 403
             throw err
         }
-        const getAdmin = await User.find({ role: 'Admin' })
+        const getAdmin = await User.findOne({ role: 'Admin' })
 
         if (!getAdmin) {
             const error = new Error('Admin not found')
@@ -281,12 +281,13 @@ module.exports = {
             throw error
         }
 
+        console.log('the admin', getAdmin)
+
         return {
-            getUser: getAdmin.map((p, i) => {
+            getAdmin: getAdmin.map((p, i) => {
                 return {
                     ...p._doc,
                     _id: p._id.toString(),
-                    userNO: i + 1,
                     createdAt: p.createdAt.toLocaleString('en-GB', {
                         hour12: true,
                     }),
