@@ -61,8 +61,6 @@ module.exports = {
             username: userData.username,
         })
 
-        console.log('exiting', existingUser, existingUsername)
-
         if (existingUser) {
             const error = new Error('User already exists')
             throw error
@@ -173,8 +171,6 @@ module.exports = {
             'pendingDeposits'
         )
 
-        console.log('the user pending ', userPendingDeposits)
-
         if (!user) {
             const error = new Error('User not found')
             error.statusCode = 404
@@ -268,6 +264,7 @@ module.exports = {
         }
     },
     getAdmin: async function (arg, req) {
+        console.log('the admin')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -299,7 +296,6 @@ module.exports = {
         }
     },
     getUserHistory: async function (arg, req) {
-        console.log('the deposit history')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -308,7 +304,6 @@ module.exports = {
         const user = await User.findById(req.userId)
         const withdrawal = await Withdrawal.find({creator: req.userId}).populate('creator')
         const deposit = await Deposit.find({creator: req.userId}).populate('creator')
-        console.log('the withdrawal', withdrawal, deposit)
 
         if (!user) {
             const error = new Error('User not found!')
@@ -316,7 +311,6 @@ module.exports = {
             throw error
         }
 
-        console.log('user', user)
 
         try {
             return {
@@ -353,7 +347,6 @@ module.exports = {
     },
 
     createWithdrawNow: async function ({ withdrawNowData }, req) {
-        console.log('create WithdrawNow account', withdrawNowData, req.userId)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -363,7 +356,6 @@ module.exports = {
 
         const user = await User.findById(req.userId)
 
-        console.log('user', user)
 
         if (!user) {
             const err = new Error('Invalid User')
@@ -389,7 +381,6 @@ module.exports = {
             })
 
             const savePendingWithdrawNow = await PendingWithdrawalNow.save()
-            console.log('saveAccount', savePendingWithdrawNow)
 
             user.pendingWithdrawal.push(savePendingWithdrawNow)
 
@@ -418,7 +409,6 @@ module.exports = {
     },
 
     createInvestNow: async function ({ investNowData }, req) {
-        console.log('create investNow account', investNowData, req.userId)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -427,8 +417,6 @@ module.exports = {
         }
 
         const user = await User.findById(req.userId)
-
-        console.log('user', user)
 
         if (!user) {
             const err = new Error('Invalid User')
@@ -445,13 +433,11 @@ module.exports = {
             })
 
             const saveInvestNow = await investNow.save()
-            console.log('saveAccount', saveInvestNow)
 
             user.pendingDeposits.push(saveInvestNow)
 
             const userPendingInvest = await user.save()
 
-            console.log('the user invest update', userPendingInvest)
 
             return {
                 ...saveInvestNow._doc,
@@ -469,7 +455,6 @@ module.exports = {
         }
     },
     createFundAccount: async function ({ fundData }, req) {
-        console.log('fund account', fundData, req.userId)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -479,7 +464,6 @@ module.exports = {
 
         const user = await User.findById(req.userId)
 
-        console.log('user', user)
 
         if (!user) {
             const err = new Error('Invalid User')
@@ -496,7 +480,6 @@ module.exports = {
 
             await fundAccount.save()
             const saveFundAccount = await fundAccount.save()
-            console.log('saveAccount', saveFundAccount)
 
             user.fundAccount.push(saveFundAccount)
 
@@ -519,7 +502,6 @@ module.exports = {
     },
 
     getFunds: async function (arg, req) {
-        console.log('the get Funds')
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -687,7 +669,6 @@ module.exports = {
         }
     },
     createWithdrawNowApproval: async function ({ PostId }, req) {
-        console.log('withdraw now approval', PostId)
         let id = mongoose.Types.ObjectId(PostId.id)
 
         if (!req.Auth) {
@@ -725,7 +706,6 @@ module.exports = {
 
         const updatedpendingWithdrawal = await pendingWithdrawal.save()
 
-        console.log('the updated withdrawal', updatedpendingWithdrawal)
 
         if (updatedpendingWithdrawal) {
             const user = await User.findById(pendingWithdrawal.creator._id)
@@ -746,7 +726,6 @@ module.exports = {
 
                 const newWithdrawal = await WithdrawalNow.save()
 
-                console.log('the new Withdrawal', newWithdrawal)
 
                 return {
                     ...newWithdrawal._doc,
@@ -764,7 +743,6 @@ module.exports = {
         }
     },
     createInvestNowApproval: async function ({ PostId }, req) {
-        console.log('invest now approval', PostId)
         let id = mongoose.Types.ObjectId(PostId.id)
 
         if (!req.Auth) {
@@ -777,7 +755,6 @@ module.exports = {
             'creator'
         )
 
-        console.log('approval auth', pendingDeposit)
         if (!pendingDeposit) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
@@ -803,7 +780,6 @@ module.exports = {
 
         const updatedpendingDeposit = await pendingDeposit.save()
 
-        console.log('the updated deposit', updatedpendingDeposit)
 
         if (updatedpendingDeposit) {
             const user = await User.findById(pendingDeposit.creator._id)
@@ -824,8 +800,6 @@ module.exports = {
                 })
 
                 const newDeposit = await deposit.save()
-
-                console.log('the new deposit', newDeposit)
 
                 return {
                     ...newDeposit._doc,
@@ -854,7 +828,6 @@ module.exports = {
         //5fa0813980bf2e7f8371931e
         const fundAccount = await FundAccount.findById(id).populate('creator')
 
-        console.log('approval auth', fundAccount)
         if (!fundAccount) {
             const error = new Error('Funds not found!')
             error.statusCode = 404
@@ -1095,7 +1068,6 @@ module.exports = {
     //Profile
 
     createUpdateProfile: async function ({ updateProfileData }, req) {
-        console.log('the create user', updateProfileData)
 
         if (!req.Auth) {
             const err = new Error('Not authenticated')
@@ -1106,8 +1078,6 @@ module.exports = {
         const existingUser = await User.findOne({
             email: updateProfileData.oldEmail,
         })
-
-        console.log('exiting user', existingUser)
 
         try {
             // if(updateProfileData.password !== ''){
@@ -1126,7 +1096,6 @@ module.exports = {
             existingUser.ethereumAccount = updateProfileData.ethereumAccount
 
             const updatedUser = await existingUser.save()
-            console.log('updated the user', updatedUser)
 
             if (updatedUser) {
                 return {
