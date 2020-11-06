@@ -692,7 +692,7 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-            const activities = Activities.findOne()
+            const activities = Activities.findOne('5fa4f59e2463b92485889d60')
 
             console.log('activities Document', activities)
 
