@@ -675,6 +675,10 @@ module.exports = {
             const lastDeposit = await Deposit.findOne().sort({createdAt: -1}).populate('creator')
             const lastWithdrawal = await Withdrawal.findOne().sort({createdAt: -1}).populate('creator')
 
+              const updateActivities = await Activities.findOne()
+
+              updateActivities.totalMembers = updateActivities.totalMembers + countMembers
+
             // console.log('lastDeposit', lastDeposit)
             // console.log('lastWithdrawal', lastWithdrawal)
             // console.log('newestMember', newestMember)
@@ -718,7 +722,6 @@ module.exports = {
                 err.statusCode = 422
                 throw err
             }
-            const theCreator = []
             const theAllUsersDeposit = []
             const theAllUsersWithdrawal = []
 
@@ -763,11 +766,9 @@ module.exports = {
                         _id: p._id.toString(),
                     }
                 }),
-                fundData: theCreator,
-                thePendingDeposit,
-                thePendingWithdrawal,
                 theAllUsersDeposit,
-                theAllUsersWithdrawal
+                theAllUsersWithdrawal,
+                activities
             }
         } catch (err) {
             console.log(err)
