@@ -675,12 +675,12 @@ module.exports = {
                 .sort({ createdAt: -1 })
                 .populate('creator')
 
-            const updateActivities = await Activities.findOne()
+            const updatedActivities = await Activities.findOne()
 
-            updateActivities.totalMembers =
-                updateActivities.totalMembers + countMembers
-            updatedActivities.onlineDays = updateActivities.onlineDays
-            updatedActivities.totalPaidOut = updateActivities.totalPaidOut
+            updatedActivities.totalMembers =
+                updatedActivities.totalMembers + countMembers
+            updatedActivities.onlineDays = updatedActivities.onlineDays
+            updatedActivities.totalPaidOut = updatedActivities.totalPaidOut
             updatedActivities.totalInvestments = updateProfileData.totalInvestments
             updatedActivities.newestMember = newestMember.username
             updatedActivities.lastDepositName = lastDeposit.creator.username
