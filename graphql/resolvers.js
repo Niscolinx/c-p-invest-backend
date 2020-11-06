@@ -692,9 +692,9 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-            const activities = Activities.find()
+            const activities = Activities.findOne()
 
-            console.log('activities Document', activities._doc)
+            console.log('activities Document', activities)
 
            // let updatedActivities = await activities.save()
 
