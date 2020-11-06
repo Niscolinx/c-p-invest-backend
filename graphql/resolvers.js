@@ -685,9 +685,10 @@ module.exports = {
                 totalMembers: 679579,
                 totalPaidOut: 215879017,
                 totalInvestments: 355899136,
-                lastDepositName: lastDeposit.username,
+                newestMember: newestMember.username,
+                lastDepositName: lastDeposit.creator.username,
                 lastDepositAmount: lastDeposit.amount,
-                lastWithdrawalName: lastWithdrawal.username,
+                lastWithdrawalName: lastWithdrawal.creator.username,
                 lastWithdrawalAmount: lastWithdrawal.amount
             })
 
