@@ -131,6 +131,17 @@ module.exports = buildSchema(`
         totalPosts: Int!
         lastPage: Int
     }
+
+    type activityData {
+        onlineDays: Int
+        totalMembers: Int
+        NewestMember: User
+        totalPaidOut: Int
+        totalInvestments: Int
+        lastDeposit: User
+        lastWithdrawal: User
+    }
+
     type getFundData {
         fundData: [getFundsData!]!   
         thePendingDeposit: [getFundsData!]!
@@ -159,6 +170,11 @@ module.exports = buildSchema(`
         userFundAccount: [FundAccount!]!    
         userPendingDeposit: [FundAccount!]!    
     }
+    type getActivitiesData {
+        activity: activityData
+        lastWithdrawals : [User!]
+        lastDeposits: [User!]
+    }
 
     type rootQuery{
         login(email: String, password: String): AuthData!
@@ -166,6 +182,7 @@ module.exports = buildSchema(`
         getPosts(page: Int): PostData!
         post(id: ID!): FundAccount!
         getUser: getUserData!
+        getActivities: getActivitiesData
         getAdmin: User
         getUsers: getUsersData!
         getUserHistory: getUserHistoryData!

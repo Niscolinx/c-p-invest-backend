@@ -664,6 +664,156 @@ module.exports = {
             console.log(err)
         }
     },
+    getActivities: async function (arg, req) {
+        console.log('the get activities')
+
+        try {
+
+            const newestMember = await User.findOne({role: 'Customer'}).sort({createdAt: -1})
+            const countMembers = await User.find().countDocuments()
+            const lastDeposit = await Deposit.findOne().sort({createdAt: -1}).populate('creator')
+            const lastWithdrawal = await Withdrawal.findOne().sort({createdAt: -1}).populate('creator')
+
+            console.log('lastDeposit', lastDeposit)
+            console.log('lastWithdrawal', lastWithdrawal)
+            console.log('newestMember', newestMember)
+            console.log('count members', countMembers)
+
+            const allUsersDeposit = await Deposit.find().populate(
+                'creator'
+            )
+            const allUsersWithdrawal = await Withdrawal.find().populate(
+                'creator'
+            )
+
+            if (!allUsersDeposit) {
+                const err = new Error('No Users deposit')
+                err.statusCode = 422
+                throw err
+            }
+            if (!allUsersWithdrawal) {
+                const err = new Error('No Users withdrawal')
+                err.statusCode = 422
+                throw err
+            }
+            const theCreator = []
+            const thePendingDeposit = []
+            const thePendingWithdrawal = []
+            const theAllUsersDeposit = []
+            const theAllUsersWithdrawal = []
+
+            return {
+                getFund: getFunds.map((p, i) => {
+                    theCreator.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getPendingDeposit: pendingDeposit.map((p, i) => {
+                    thePendingDeposit.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
+                    thePendingWithdrawal.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        status: p._doc.status,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getAllUsersDeposit: allUsersDeposit.map((p, i) => {
+                    theAllUsersDeposit.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        planName: p._doc.planName,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                getAllUsersWithdrawal: allUsersWithdrawal.map((p, i) => {
+                    theAllUsersWithdrawal.push({
+                        _id: p._id.toString(),
+                        creator: p.creator.username,
+                        amount: p._doc.amount,
+                        currency: p._doc.currency,
+                        fundNO: i + 1,
+                        createdAt: p.createdAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
+                            hour12: true,
+                        }),
+                    })
+                    return {
+                        ...p._doc,
+                        _id: p._id.toString(),
+                    }
+                }),
+                fundData: theCreator,
+                thePendingDeposit,
+                thePendingWithdrawal,
+                theAllUsersDeposit,
+                theAllUsersWithdrawal
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    },
     createWithdrawNowApproval: async function ({ PostId }, req) {
         let id = mongoose.Types.ObjectId(PostId.id)
 
