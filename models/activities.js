@@ -28,22 +28,21 @@ const activitiesSchema = new Schema(
             type: Number,
             required: true,
         },
-      
-        newestMemberName: {
+        lastWithdrawalName: {
             type: String,
             required: true,
         },
-        newestMemberAmount: {
+
+        lastWithdrawalAmount: {
             type: Number,
             required: true,
         },
 
-
-        creator: {
-            type: Schema.Types.ObjectId,
-            ref: 'users',
+        newestMember: {
+            type: String,
             required: true,
         },
+    
     },
     { timestamps: true }
 )

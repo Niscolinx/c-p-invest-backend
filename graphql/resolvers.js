@@ -11,6 +11,7 @@ const Withdrawal = require('../models/withdrawal')
 const PendingDeposit = require('../models/pendingDeposit')
 const PendingWithdrawal = require('../models/pendingWithdrawal')
 const FundAccount = require('../models/fundAccount')
+const Activities = require('../models/activities')
 
 const fileDelete = require('../utility/deleteFile')
 
