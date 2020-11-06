@@ -694,7 +694,7 @@ module.exports = {
 
             const activities = Activities.find()
 
-            console.log('activities Document', activities)
+            console.log('activities Document', activities._doc)
 
            // let updatedActivities = await activities.save()
 
