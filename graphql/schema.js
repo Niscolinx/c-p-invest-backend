@@ -174,8 +174,8 @@ module.exports = buildSchema(`
     }
     type getActivitiesData {
         activity: activityData
-        lastWithdrawals : [User!]
-        lastDeposits: [User!]
+        lastWithdrawal : [User!]
+        lastDeposit: [User!]
         theAllUsersDeposit: [getFundsData!]!
         theAllUsersWithdrawal: [getFundsData!]!
     }

@@ -289,7 +289,7 @@ module.exports = {
             }),
             updatedAt: getAdmin.updatedAt.toLocaleString('en-GB', {
                 hour12: true,
-            })
+            }),
         }
     },
     getUserHistory: async function (arg, req) {
@@ -299,15 +299,18 @@ module.exports = {
             throw err
         }
         const user = await User.findById(req.userId)
-        const withdrawal = await Withdrawal.find({creator: req.userId}).populate('creator')
-        const deposit = await Deposit.find({creator: req.userId}).populate('creator')
+        const withdrawal = await Withdrawal.find({
+            creator: req.userId,
+        }).populate('creator')
+        const deposit = await Deposit.find({ creator: req.userId }).populate(
+            'creator'
+        )
 
         if (!user) {
             const error = new Error('User not found!')
             error.statusCode = 404
             throw error
         }
-
 
         try {
             return {
@@ -344,7 +347,6 @@ module.exports = {
     },
 
     createWithdrawNow: async function ({ withdrawNowData }, req) {
-
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -352,7 +354,6 @@ module.exports = {
         }
 
         const user = await User.findById(req.userId)
-
 
         if (!user) {
             const err = new Error('Invalid User')
@@ -406,7 +407,6 @@ module.exports = {
     },
 
     createInvestNow: async function ({ investNowData }, req) {
-
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -435,7 +435,6 @@ module.exports = {
 
             const userPendingInvest = await user.save()
 
-
             return {
                 ...saveInvestNow._doc,
                 _id: saveInvestNow._id.toString(),
@@ -452,7 +451,6 @@ module.exports = {
         }
     },
     createFundAccount: async function ({ fundData }, req) {
-
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
@@ -460,7 +458,6 @@ module.exports = {
         }
 
         const user = await User.findById(req.userId)
-
 
         if (!user) {
             const err = new Error('Invalid User')
@@ -515,9 +512,7 @@ module.exports = {
             const pendingWithdrawal = await PendingWithdrawal.find().populate(
                 'creator'
             )
-            const allUsersDeposit = await Deposit.find().populate(
-                'creator'
-            )
+            const allUsersDeposit = await Deposit.find().populate('creator')
             const allUsersWithdrawal = await Withdrawal.find().populate(
                 'creator'
             )
@@ -659,7 +654,7 @@ module.exports = {
                 thePendingDeposit,
                 thePendingWithdrawal,
                 theAllUsersDeposit,
-                theAllUsersWithdrawal
+                theAllUsersWithdrawal,
             }
         } catch (err) {
             console.log(err)
@@ -669,15 +664,34 @@ module.exports = {
         console.log('the get activities')
 
         try {
-
-            const newestMember = await User.findOne({role: 'Customer'}).sort({createdAt: -1})
+            const newestMember = await User.findOne({ role: 'Customer' }).sort({
+                createdAt: -1,
+            })
             const countMembers = await User.find().countDocuments()
-            const lastDeposit = await Deposit.findOne().sort({createdAt: -1}).populate('creator')
-            const lastWithdrawal = await Withdrawal.findOne().sort({createdAt: -1}).populate('creator')
+            const lastDeposit = await Deposit.findOne()
+                .sort({ createdAt: -1 })
+                .populate('creator')
+            const lastWithdrawal = await Withdrawal.findOne()
+                .sort({ createdAt: -1 })
+                .populate('creator')
 
-              const updateActivities = await Activities.findOne()
+            const updateActivities = await Activities.findOne()
 
-              updateActivities.totalMembers = updateActivities.totalMembers + countMembers
+            updateActivities.totalMembers =
+                updateActivities.totalMembers + countMembers
+            updatedActivities.onlineDays = updateActivities.onlineDays
+            updatedActivities.totalPaidOut = updateActivities.totalPaidOut
+            updatedActivities.totalInvestments = updateProfileData.totalInvestments
+            updatedActivities.newestMember = newestMember.username
+            updatedActivities.lastDepositName = lastDeposit.creator.username
+            updatedActivities.lastDepositAmount = lastDeposit.amount
+            updatedActivities.lastWithdrawalName =
+                lastWithdrawal.creator.username
+            updatedActivities.lastWithdrawalAmount = lastWithdrawal.amount
+
+           const theUpdate = await updateActivities.save()
+
+           console.log('the update', theUpdate)
 
             // console.log('lastDeposit', lastDeposit)
             // console.log('lastWithdrawal', lastWithdrawal)
@@ -696,18 +710,15 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-            const activities = await Activities.findOne(
-                ({_id: '5fa4f59e2463b92485889d60'})
-            )
+            const activities = await Activities.findOne({
+                _id: '5fa4f59e2463b92485889d60',
+            })
 
+            // let updatedActivities = await activities.save()
 
-           // let updatedActivities = await activities.save()
+            // console.log('the updated activities', updatedActivities)
 
-           // console.log('the updated activities', updatedActivities)
-
-            const allUsersDeposit = await Deposit.find().populate(
-                'creator'
-            )
+            const allUsersDeposit = await Deposit.find().populate('creator')
             const allUsersWithdrawal = await Withdrawal.find().populate(
                 'creator'
             )
@@ -726,7 +737,6 @@ module.exports = {
             const theAllUsersWithdrawal = []
 
             return {
-                
                 getAllUsersDeposit: allUsersDeposit.map((p, i) => {
                     theAllUsersDeposit.push({
                         _id: p._id.toString(),
@@ -771,7 +781,7 @@ module.exports = {
                 activities,
                 newestMember,
                 lastWithdrawal,
-                lastDeposit
+                lastDeposit,
             }
         } catch (err) {
             console.log(err)
@@ -815,7 +825,6 @@ module.exports = {
 
         const updatedpendingWithdrawal = await pendingWithdrawal.save()
 
-
         if (updatedpendingWithdrawal) {
             const user = await User.findById(pendingWithdrawal.creator._id)
 
@@ -834,7 +843,6 @@ module.exports = {
                 })
 
                 const newWithdrawal = await WithdrawalNow.save()
-
 
                 return {
                     ...newWithdrawal._doc,
@@ -888,7 +896,6 @@ module.exports = {
         }
 
         const updatedpendingDeposit = await pendingDeposit.save()
-
 
         if (updatedpendingDeposit) {
             const user = await User.findById(pendingDeposit.creator._id)
@@ -1177,7 +1184,6 @@ module.exports = {
     //Profile
 
     createUpdateProfile: async function ({ updateProfileData }, req) {
-
         if (!req.Auth) {
             const err = new Error('Not authenticated')
             err.statusCode = 403
