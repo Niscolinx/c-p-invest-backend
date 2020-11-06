@@ -768,7 +768,10 @@ module.exports = {
                 }),
                 theAllUsersDeposit,
                 theAllUsersWithdrawal,
-                activities
+                activities,
+                newestMember,
+                lastWithdrawal,
+                lastDeposit
             }
         } catch (err) {
             console.log(err)

@@ -137,6 +137,10 @@ module.exports = buildSchema(`
         totalMembers: Int
         NewestMember: User
         totalPaidOut: Int
+        lastDepositName: String
+        lastDepositAmount: Int
+        lastWithdrawalName: String
+        lastWithdrawalAmount: Int
         totalInvestments: Int
         lastDeposit: User
         lastWithdrawal: User
@@ -174,6 +178,8 @@ module.exports = buildSchema(`
         activity: activityData
         lastWithdrawals : [User!]
         lastDeposits: [User!]
+        newestMember: String
+
     }
 
     type rootQuery{
