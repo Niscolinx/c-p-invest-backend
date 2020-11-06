@@ -675,10 +675,10 @@ module.exports = {
             const lastDeposit = await Deposit.findOne().sort({createdAt: -1}).populate('creator')
             const lastWithdrawal = await Withdrawal.findOne().sort({createdAt: -1}).populate('creator')
 
-            console.log('lastDeposit', lastDeposit)
-            console.log('lastWithdrawal', lastWithdrawal)
-            console.log('newestMember', newestMember)
-            console.log('count members', countMembers)
+            // console.log('lastDeposit', lastDeposit)
+            // console.log('lastWithdrawal', lastWithdrawal)
+            // console.log('newestMember', newestMember)
+            // console.log('count members', countMembers)
 
             // const activities = new Activities({
             //     onlineDays: 4232,
@@ -692,9 +692,10 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-            const activities = Activities.findOne('5fa4f59e2463b92485889d60')
+            const activities = await Activities.findOne(
+                ({_id: '5fa4f59e2463b92485889d60'})
+            )
 
-            console.log('activities Document', activities)
 
            // let updatedActivities = await activities.save()
 
@@ -718,74 +719,11 @@ module.exports = {
                 throw err
             }
             const theCreator = []
-            const thePendingDeposit = []
-            const thePendingWithdrawal = []
             const theAllUsersDeposit = []
             const theAllUsersWithdrawal = []
 
             return {
-                getFund: getFunds.map((p, i) => {
-                    theCreator.push({
-                        _id: p._id.toString(),
-                        creator: p.creator.username,
-                        status: p._doc.status,
-                        amount: p._doc.amount,
-                        currency: p._doc.currency,
-                        fundNO: i + 1,
-                        createdAt: p.createdAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                    })
-                    return {
-                        ...p._doc,
-                        _id: p._id.toString(),
-                    }
-                }),
-                getPendingDeposit: pendingDeposit.map((p, i) => {
-                    thePendingDeposit.push({
-                        _id: p._id.toString(),
-                        creator: p.creator.username,
-                        status: p._doc.status,
-                        planName: p._doc.planName,
-                        amount: p._doc.amount,
-                        currency: p._doc.currency,
-                        fundNO: i + 1,
-                        createdAt: p.createdAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                    })
-                    return {
-                        ...p._doc,
-                        _id: p._id.toString(),
-                    }
-                }),
-                getPendingWithdrawal: pendingWithdrawal.map((p, i) => {
-                    thePendingWithdrawal.push({
-                        _id: p._id.toString(),
-                        creator: p.creator.username,
-                        status: p._doc.status,
-                        planName: p._doc.planName,
-                        amount: p._doc.amount,
-                        currency: p._doc.currency,
-                        fundNO: i + 1,
-                        createdAt: p.createdAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                        updatedAt: p.updatedAt.toLocaleString('en-GB', {
-                            hour12: true,
-                        }),
-                    })
-                    return {
-                        ...p._doc,
-                        _id: p._id.toString(),
-                    }
-                }),
+                
                 getAllUsersDeposit: allUsersDeposit.map((p, i) => {
                     theAllUsersDeposit.push({
                         _id: p._id.toString(),
