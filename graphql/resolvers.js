@@ -680,6 +680,21 @@ module.exports = {
             console.log('newestMember', newestMember)
             console.log('count members', countMembers)
 
+            const activities = new Activities({
+                onlineDays: 4232,
+                totalMembers: 679579,
+                totalPaidOut: 215879017,
+                totalInvestments: 355899136,
+                lastDepositName: lastDeposit.username,
+                lastDepositAmount: lastDeposit.amount,
+                lastWithdrawalName: lastWithdrawal.username,
+                lastWithdrawalAmount: lastWithdrawal.amount
+            })
+
+            let updatedActivities = await activities.save()
+
+            console.log('the updated activities', updatedActivities)
+
             const allUsersDeposit = await Deposit.find().populate(
                 'creator'
             )
