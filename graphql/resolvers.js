@@ -167,26 +167,38 @@ module.exports = {
             err.statusCode = 403
             throw err
         }
-        const user = await User.findById(req.userId).populate('fundAccount')
-        const userPendingDeposits = await User.findById(req.userId).populate(
-            'pendingDeposits'
-        )
-
-        const pendingDepositsCount = await PendingDeposit.find({status: 'Pending'}).countDocuments()
-
-        console.log('the pending Deposit', pendingDepositsCount)
-        if (!user) {
-            const error = new Error('User not found')
-            error.statusCode = 404
-            throw error
-        }
-
-        console.log('the user', user)
-        const userFundAccount = []
-        const userPendingDeposit = []
-        let theUser = {}
-
         try {
+            const user = await User.findById(req.userId).populate('fundAccount')
+            const userPendingDeposits = await User.findById(
+                req.userId
+            ).populate('pendingDeposits')
+
+            const pendingDepositsCount = await PendingDeposit.find({
+                status: 'Pending',
+            }).countDocuments()
+            const pendingWithdrawalsCount = await PendingWithdrawal.find({
+                status: 'Pending',
+            }).countDocuments()
+            const theDeposits = await Deposit.find()
+
+            let totalFundsAmount = 0
+            theDeposits.map((item) => {
+                return (totalFundsAmount += item.amount)
+            })
+
+            console.log('the totalFundsDisbursed', totalFundsAmount)
+
+            if (!user) {
+                const error = new Error('User not found')
+                error.statusCode = 404
+                throw error
+            }
+
+            console.log('the user', user)
+            const userFundAccount = []
+            const userPendingDeposit = []
+            let theUser = {}
+
             user._doc.fundAccount.map((p, i) => {
                 userFundAccount.push({
                     _id: p._id.toString(),
@@ -683,7 +695,8 @@ module.exports = {
                 updatedActivities.totalMembers + countMembers
             updatedActivities.onlineDays = updatedActivities.onlineDays
             updatedActivities.totalPaidOut = updatedActivities.totalPaidOut
-            updatedActivities.totalInvestments = updatedActivities.totalInvestments
+            updatedActivities.totalInvestments =
+                updatedActivities.totalInvestments
             updatedActivities.newestMember = newestMember.username
             updatedActivities.lastDepositName = lastDeposit.creator.username
             updatedActivities.lastDepositAmount = lastDeposit.amount
@@ -691,7 +704,7 @@ module.exports = {
                 lastWithdrawal.creator.username
             updatedActivities.lastWithdrawalAmount = lastWithdrawal.amount
 
-           const theUpdate = await updatedActivities.save()
+            const theUpdate = await updatedActivities.save()
 
             // console.log('lastDeposit', lastDeposit)
             // console.log('lastWithdrawal', lastWithdrawal)
@@ -710,15 +723,16 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-
             // let updatedActivities = await activities.save()
 
             // console.log('the updated activities', updatedActivities)
 
-            const allUsersDeposit = await Deposit.find().sort({createdAt: -1}).populate('creator')
-            const allUsersWithdrawal = await Withdrawal.find().sort({createdAt: -1}).populate(
-                'creator'
-            )
+            const allUsersDeposit = await Deposit.find()
+                .sort({ createdAt: -1 })
+                .populate('creator')
+            const allUsersWithdrawal = await Withdrawal.find()
+                .sort({ createdAt: -1 })
+                .populate('creator')
 
             if (!allUsersDeposit) {
                 const err = new Error('No Users deposit')
