@@ -661,8 +661,6 @@ module.exports = {
         }
     },
     getActivities: async function (arg, req) {
-        console.log('the get activities')
-
         try {
             const newestMember = await User.findOne({ role: 'Customer' }).sort({
                 createdAt: -1,
@@ -690,8 +688,6 @@ module.exports = {
             updatedActivities.lastWithdrawalAmount = lastWithdrawal.amount
 
            const theUpdate = await updatedActivities.save()
-
-           console.log('the update', theUpdate)
 
             // console.log('lastDeposit', lastDeposit)
             // console.log('lastWithdrawal', lastWithdrawal)
