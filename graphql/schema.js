@@ -135,13 +135,13 @@ module.exports = buildSchema(`
     type activityData {
         onlineDays: Int
         totalMembers: Int
-        NewestMember: User
+        newestMember: String
         totalPaidOut: Int
+        totalInvestments: Int
         lastDepositName: String
         lastDepositAmount: Int
         lastWithdrawalName: String
         lastWithdrawalAmount: Int
-        totalInvestments: Int
     }
 
     type getFundData {
@@ -173,9 +173,7 @@ module.exports = buildSchema(`
         userPendingDeposit: [FundAccount!]!    
     }
     type getActivitiesData {
-        activity: activityData
-        lastWithdrawal : [User!]
-        lastDeposit: [User!]
+        updatedActivities: activityData
         theAllUsersDeposit: [getFundsData!]!
         theAllUsersWithdrawal: [getFundsData!]!
     }

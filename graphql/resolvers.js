@@ -681,7 +681,7 @@ module.exports = {
                 updatedActivities.totalMembers + countMembers
             updatedActivities.onlineDays = updatedActivities.onlineDays
             updatedActivities.totalPaidOut = updatedActivities.totalPaidOut
-            updatedActivities.totalInvestments = updateProfileData.totalInvestments
+            updatedActivities.totalInvestments = updatedActivities.totalInvestments
             updatedActivities.newestMember = newestMember.username
             updatedActivities.lastDepositName = lastDeposit.creator.username
             updatedActivities.lastDepositAmount = lastDeposit.amount
@@ -689,7 +689,7 @@ module.exports = {
                 lastWithdrawal.creator.username
             updatedActivities.lastWithdrawalAmount = lastWithdrawal.amount
 
-           const theUpdate = await updateActivities.save()
+           const theUpdate = await updatedActivities.save()
 
            console.log('the update', theUpdate)
 
@@ -710,16 +710,13 @@ module.exports = {
             //     lastWithdrawalAmount: lastWithdrawal.amount
             // })
 
-            const activities = await Activities.findOne({
-                _id: '5fa4f59e2463b92485889d60',
-            })
 
             // let updatedActivities = await activities.save()
 
             // console.log('the updated activities', updatedActivities)
 
-            const allUsersDeposit = await Deposit.find().populate('creator')
-            const allUsersWithdrawal = await Withdrawal.find().populate(
+            const allUsersDeposit = await Deposit.find().sort({createdAt: -1}).populate('creator')
+            const allUsersWithdrawal = await Withdrawal.find().sort({createdAt: -1}).populate(
                 'creator'
             )
 
@@ -778,10 +775,7 @@ module.exports = {
                 }),
                 theAllUsersDeposit,
                 theAllUsersWithdrawal,
-                activities,
-                newestMember,
-                lastWithdrawal,
-                lastDeposit,
+                updatedActivities,
             }
         } catch (err) {
             console.log(err)
