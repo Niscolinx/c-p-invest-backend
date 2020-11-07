@@ -215,7 +215,6 @@ module.exports = {
                 throw error
             }
 
-            console.log('the funding Count', fundAccountCount)
 
             const userFundAccount = []
             const userPendingDeposit = []
@@ -268,7 +267,8 @@ module.exports = {
                 pendingDepositsCount,
                 pendingWithdrawalsCount,
                 totalUserDeposits,
-                totalUserWithdrawals
+                totalUserWithdrawals,
+                fundAccountCount
 
             }
         } catch (err) {

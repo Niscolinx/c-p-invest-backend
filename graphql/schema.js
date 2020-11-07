@@ -178,6 +178,9 @@ module.exports = buildSchema(`
         totalReceivedAmount: Int!
         pendingDepositsCount: Int!
         pendingWithdrawalsCount: Int!
+        totalUserDeposits: Int!
+        totalUserWithdrawals: Int!
+        fundAccountCount: Int!
     }
     type getActivitiesData {
         updatedActivities: activityData
