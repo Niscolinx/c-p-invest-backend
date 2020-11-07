@@ -172,12 +172,16 @@ module.exports = {
             'pendingDeposits'
         )
 
+        const pendingDepositsCount = await PendingDeposit.find({status: 'Pending'}).countDocuments()
+
+        console.log('the pending Deposit', pendingDepositsCount)
         if (!user) {
             const error = new Error('User not found')
             error.statusCode = 404
             throw error
         }
 
+        console.log('the user', user)
         const userFundAccount = []
         const userPendingDeposit = []
         let theUser = {}
