@@ -169,6 +169,11 @@ module.exports = {
         }
         try {
             const user = await User.findById(req.userId).populate('fundAccount')
+                        const fundAccountCount = await User.findById(req.userId).populate(
+                            'fundAccount'
+                        ).countDocuments()
+
+
             const userPendingDeposits = await User.findById(
                 req.userId
             ).populate('pendingDeposits')
@@ -181,6 +186,19 @@ module.exports = {
             }).countDocuments()
             const theWithdrawals = await Withdrawal.find()
             const theDeposits = await Deposit.find()
+            const userDeposits = await Deposit.find({creator: req.userId})
+            const userWithdrawals = await Withdrawal.find({creator: req.userId})
+
+            let totalUserDeposits = 0
+            let totalUserWithdrawals = 0
+
+            userDeposits.map(item => {
+                return totalUserDeposits += item.amount
+            })
+
+            userWithdrawals.map(item => {
+                return totalUserWithdrawals += item.amount
+            })
 
             let totalDisbursedAmount = 0
             theWithdrawals.map((item) => {
@@ -191,14 +209,13 @@ module.exports = {
                 return (totalReceivedAmount += item.amount)
             })
 
-            console.log('the totalFundsDisbursed', totalDisbursedAmount)
-            console.log('the totalFundsReceived', totalReceivedAmount)
-
             if (!user) {
                 const error = new Error('User not found')
                 error.statusCode = 404
                 throw error
             }
+
+            console.log('the funding Count', fundAccountCount)
 
             const userFundAccount = []
             const userPendingDeposit = []
@@ -249,10 +266,10 @@ module.exports = {
                 totalDisbursedAmount,
                 totalReceivedAmount,
                 pendingDepositsCount,
-                pendingWithdrawalsCount
-                // userTotalDeposits: user._doc.totalDeposits,
-                // userTotalWithdrawals: user._doc.totalWithdrawals,
-                // userAccountBalance: user._doc.lastWithdrawal,
+                pendingWithdrawalsCount,
+                totalUserDeposits,
+                totalUserWithdrawals
+
             }
         } catch (err) {
             console.log('the error of get user', err)

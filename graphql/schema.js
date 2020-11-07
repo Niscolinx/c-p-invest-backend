@@ -24,6 +24,9 @@ module.exports = buildSchema(`
         secretQuestion: String!
         secretAnswer: String!
         accountBalance: Int!
+        totalWithdrawal: Int!
+        totalDeposit: Int!
+        approvedFunds: Int!
         ethereumAccount: String
         bitcoinAccount: String
         city: String
