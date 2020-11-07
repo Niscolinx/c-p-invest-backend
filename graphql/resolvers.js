@@ -179,14 +179,20 @@ module.exports = {
             const pendingWithdrawalsCount = await PendingWithdrawal.find({
                 status: 'Pending',
             }).countDocuments()
+            const theWithdrawals = await Withdrawal.find()
             const theDeposits = await Deposit.find()
 
-            let totalFundsAmount = 0
+            let totalDisbursedAmount = 0
+            theWithdrawals.map((item) => {
+                return (totalDisbursedAmount += item.amount)
+            })
+            let totalReceivedAmount = 0
             theDeposits.map((item) => {
-                return (totalFundsAmount += item.amount)
+                return (totalReceivedAmount += item.amount)
             })
 
-            console.log('the totalFundsDisbursed', totalFundsAmount)
+            console.log('the totalFundsDisbursed', totalDisbursedAmount)
+            console.log('the totalFundsReceived', totalReceivedAmount)
 
             if (!user) {
                 const error = new Error('User not found')
@@ -194,7 +200,6 @@ module.exports = {
                 throw error
             }
 
-            console.log('the user', user)
             const userFundAccount = []
             const userPendingDeposit = []
             let theUser = {}
@@ -241,6 +246,8 @@ module.exports = {
                 user: theUser,
                 userFundAccount,
                 userPendingDeposit,
+                totalDisbursedAmount,
+                totalReceivedAmount
                 // userTotalDeposits: user._doc.totalDeposits,
                 // userTotalWithdrawals: user._doc.totalWithdrawals,
                 // userAccountBalance: user._doc.lastWithdrawal,
