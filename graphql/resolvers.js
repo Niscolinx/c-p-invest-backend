@@ -247,7 +247,9 @@ module.exports = {
                 userFundAccount,
                 userPendingDeposit,
                 totalDisbursedAmount,
-                totalReceivedAmount
+                totalReceivedAmount,
+                pendingDepositsCount,
+                pendingWithdrawalsCount
                 // userTotalDeposits: user._doc.totalDeposits,
                 // userTotalWithdrawals: user._doc.totalWithdrawals,
                 // userAccountBalance: user._doc.lastWithdrawal,
